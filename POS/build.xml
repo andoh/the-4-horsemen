@@ -6,14 +6,21 @@
   <property name="src" location="src"/>
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
-
+	
+	<!-- update properties where necessary -->
 	<propertyfile file="version.properties" comment = "Version properties">
-		<entry  key="build.revision.number" type="int" default="1" operation="+"/>
 		<entry  key="build.minor.number" type="int" default="0"/>
 		<entry  key="build.major.number" type="int" default="0"/>
-		<entry  key="build.number" operation="=" value="TODO"/>
-		
+		<entry  key="build.revision.number" type="int" default="1" operation="+"/>
 	</propertyfile>
+	
+	<!-- read properties file -->
+	<loadproperties srcFile="version.properties"/>
+	
+	<propertyfile file="version.properties" comment = "Version properties">
+		<entry  key="build.number" operation="=" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
+	</propertyfile>
+		
 	
   <target name="init">
     <!-- Create the time stamp -->
