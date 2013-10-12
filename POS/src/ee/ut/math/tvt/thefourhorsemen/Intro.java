@@ -12,6 +12,7 @@ public class Intro
 		// siis hakkasid igasugused static errorid tulema...
 		// Võite proovida ise, äkki teil rohkem õnne ja teete midagi 
 		// teistmoodi kui mina
+		
 	}
 
 }
