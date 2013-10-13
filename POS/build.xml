@@ -32,24 +32,32 @@
 	<target name="run"
 	        description="run the application" >
 	    <!-- Run the Intro class -->
-		<java classname="Intro.Main">
-			<classpath>
-				<pathelement path="${ee.ut.math.tvt.thefourhorsemen.Intro.Main}"/>
-				<pathelement path="build/ee/ut/math/tvt/thefourhorsemen/*.class"/>
-				<fileset dir="${build}">
-					<include name="**/*.class"/>
-				</fileset>
-			</classpath>
+		<java classname="ee.ut.math.tvt.thefourhorsemen.Intro"
+			classpath="${build}"
+			fork="true">
 		</java>
 	  </target>
+	
+	<target name="jrun">
+		<java jar="${build}/jar/thefourhorsemen.jar"
+			fork="true" />
+	</target>
 
   <target name="dist" depends="build"
         description="generate the distribution" >
     <!-- Create the distribution directory -->
     <mkdir dir="${build}/jar"/>
 
-    <!-- Put everything in ${build} into the POS-${DSTAMP}.jar file -->
-    <jar jarfile="${build}/jar/thefourhorsemen.jar" basedir="${build}"/>
+    <!-- Put everything in ${build} into the jar file (after creating manifest file, if necessary)-->
+  	<manifest file="${build}/MANIFEST.MF">
+  		<attribute name="Main-Class"
+  	             value="ee/ut/math/tvt/thefourhorsemen/Intro" />
+  	</manifest>
+    <jar jarfile="${build}/jar/thefourhorsemen.jar"
+    	manifest="${build}/MANIFEST.MF"
+    	basedir="${build}"
+    	excludes="jar/thefourhorsemen.jar">
+  	</jar>
   	
   	<!-- update properties where necessary -->
 	<propertyfile file="version.properties" comment = "Version properties">
