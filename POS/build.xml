@@ -1,4 +1,6 @@
-<project name="POS" default="dist" basedir=".">
+<!-- TODO: Define classpaths in one place. Right now, classpath definitions are scattered and inconsistent. -->
+
+	<project name="POS" default="dist" basedir=".">
     <description>
         The Four Horsemen POS project ANT build file
     </description>
@@ -7,9 +9,6 @@
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
 	
-	<path id="classpath">
-		<pathelement path="${build}"/>
-	</path>
 	
   <target name="init">
     <!-- Create the time stamp -->
@@ -23,18 +22,23 @@
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
   	<javac srcdir="${src}" destdir="${build}">
-
+  		<classpath path="${build}">
+			<pathelement path="lib/log4j-1.2.17.jar"/>
+		</classpath>
   	</javac>
   	
-    <!--TODO: sets log4j and other files in the right places -->
+    <!--set log4j and other files in the right places -->
   </target>
 	
 	<target name="run"
 	        description="run the application" >
 	    <!-- Run the Intro class -->
 		<java classname="ee.ut.math.tvt.thefourhorsemen.Intro"
-			classpath="${build}"
 			fork="true">
+			<classpath path="${build}">
+				<pathelement path="lib/log4j-1.2.17.jar"/>
+				<pathelement path="etc"/>
+			</classpath>
 		</java>
 	  </target>
 	
@@ -48,11 +52,19 @@
     <!-- Create the distribution directory -->
     <mkdir dir="${build}/jar"/>
 
-    <!-- Put everything in ${build} into the jar file (after creating manifest file, if necessary)-->
+    <!-- Create manifest file if necessary -->
+  	<manifestclasspath property="lib.list" jarfile="${build}/jar/thefourhorsemen.jar">
+  		<classpath path="${build}">
+			<pathelement path="lib/log4j-1.2.17.jar"/>
+			<pathelement path="etc"/>
+		</classpath>
+  	</manifestclasspath>
   	<manifest file="${build}/MANIFEST.MF">
-  		<attribute name="Main-Class"
-  	             value="ee/ut/math/tvt/thefourhorsemen/Intro" />
+  		<attribute name="Main-Class" value="ee/ut/math/tvt/thefourhorsemen/Intro" />
+  		<attribute name="Class-Path" value="${lib.list}"/>
   	</manifest>
+  	
+  	<!-- Put everything in ${build} into the jar file-->
     <jar jarfile="${build}/jar/thefourhorsemen.jar"
     	manifest="${build}/MANIFEST.MF"
     	basedir="${build}"
@@ -80,8 +92,5 @@
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
   </target>
-	
-	
-	
 
 </project>
