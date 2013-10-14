@@ -1,5 +1,7 @@
 package ee.ut.math.tvt.thefourhorsemen;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
 
@@ -11,7 +13,12 @@ public class Intro
 		// Initialise the logger
 		Logger log = Logger.getLogger(Intro.class);
 		
-		IntroUI.Window();
+		try {
+			IntroUI.Window();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		log.info("UI Window started!");
 		// see asi sai vist küll väga ümber nurga nüüd, aga 
 		// ei tahtnud mittetöötavat asja üles laadida.
