@@ -16,7 +16,7 @@ class Window extends JFrame
 {
 	Window() throws IOException
 	{
-		setTitle("WindowTEST2"); 
+		setTitle("POS system"); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(500, 400);
 		// create and load app properties
@@ -34,16 +34,16 @@ class Window extends JFrame
 		setLayout(new GridBagLayout());
 		
 		String[] data = {
-				"Tiimi nimi",
-		        appProps.getProperty("team_name"),
-		        "Tiimi liidri nimi",
-		        appProps.getProperty("team_leader"),
-		        "Tiimi liidri e-mail",
-		        appProps.getProperty("team_leader_email"),
-		        "Tiimi liikmed",
-		        appProps.getProperty("team_members"),
-		        "Versioon",
-		        verProps.getProperty("build.number")
+				"Team name",
+		        appProps.getProperty("team_name").replaceAll("\"", ""),
+		        "Team leader",
+		        appProps.getProperty("team_leader").replaceAll("\"", ""),
+		        "Team leader email",
+		        appProps.getProperty("team_leader_email").replaceAll("\"", ""),
+		        "Team members",
+		        appProps.getProperty("team_members").replaceAll("\"", ""),
+		        "Build number",
+		        verProps.getProperty("build.number").replaceAll("\"", "")
 		        };
 		
 		//Gridi asjade paigutamine.
@@ -104,9 +104,6 @@ public class IntroUI
 			Window frame = new Window();			
 		}
 
-		
-		// Siltidega tundus kõige mõistlikum teha seda, aga võib-olla
-		// saab teisti paremini kuidagi? JTextField näiteks? Mis arvate`?
 }
 
 
