@@ -170,6 +170,7 @@ public class PurchaseItemPanel extends JPanel {
     private StockItem getStockItemByBarcode() {
         try {
             int code = Integer.parseInt(barCodeField.getName());
+            
             return model.getWarehouseTableModel().getItemById(code);
         } catch (NumberFormatException ex) {
             return null;
