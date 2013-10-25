@@ -40,7 +40,8 @@ public class PurchaseItemPanel extends JPanel {
     private JTextField quantityField;
     private JComboBox nameField;
     private JTextField priceField;
-
+    private ArrayList<String> names;
+    private List<StockItem> products;
     private JButton addItemButton;
 
     // Warehouse model
@@ -90,13 +91,11 @@ public class PurchaseItemPanel extends JPanel {
         panel.setBorder(BorderFactory.createTitledBorder("Product"));
         
         SalesDomainControllerImpl sdc = new SalesDomainControllerImpl();
-        List<StockItem> products = sdc.loadWarehouseState();
+        products = sdc.loadWarehouseState();
         
-        ArrayList<Long> barCodes = new ArrayList<Long>();
-        ArrayList<String> names = new ArrayList<String>();
+        names = new ArrayList<String>();
         
-        for (StockItem product : products){       	
-        	
+        for (StockItem product : products){       		
         	names.add(product.getName());
         }
         
@@ -108,16 +107,19 @@ public class PurchaseItemPanel extends JPanel {
         priceField = new JTextField();
 
         // Fill the dialog fields if the bar code text fields loses focus
-        barCodeField.addFocusListener(new FocusListener() {
+        
+        nameField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
+            	
             }
 
             public void focusLost(FocusEvent e) {
-                fillDialogFields();
+                
+            	fillDialogFields();
             }
         });
 
-        nameField.setEditable(false);
+        barCodeField.setEditable(false);
         priceField.setEditable(false);
 
         // == Add components to the panel
@@ -154,23 +156,31 @@ public class PurchaseItemPanel extends JPanel {
     // Fill dialog with data from the "database".
     public void fillDialogFields() {
         
-    	StockItem stockItem = getStockItemByBarcode();
-
-        if (stockItem != null) {
-            nameField.setToolTipText(stockItem.getName());
-            String priceString = String.valueOf(stockItem.getPrice());
-            priceField.setText(priceString);
-        } else {
-            reset();
+    	
+    	StockItem stockItem = (products.get(names.indexOf(nameField.getSelectedItem())));
+    	System.out.println(stockItem);
+    	
+    	if (stockItem != null) {
+        	
+        	String barId = String.valueOf(stockItem.getId());
+        	barCodeField.setText(barId);
+        	String priceString = String.valueOf(stockItem.getPrice());
+        	priceField.setText(priceString);
+        	
+       } else {
+        	reset();
         }
+     	
+   
     }
 
+    
     // Search the warehouse for a StockItem with the bar code entered
     // to the barCode textfield.
     private StockItem getStockItemByBarcode() {
         try {
             int code = Integer.parseInt(barCodeField.getName());
-            
+                  
             return model.getWarehouseTableModel().getItemById(code);
         } catch (NumberFormatException ex) {
             return null;
@@ -211,7 +221,7 @@ public class PurchaseItemPanel extends JPanel {
      * Reset dialog fields.
      */
     public void reset() {
-        //barCodeField.setText("");
+        barCodeField.setText("");
         quantityField.setText("1");
         nameField.setToolTipText("");
         priceField.setText("");
