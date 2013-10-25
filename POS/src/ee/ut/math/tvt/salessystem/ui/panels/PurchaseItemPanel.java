@@ -35,10 +35,10 @@ public class PurchaseItemPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
     // Text field on the dialogPane
-    private JComboBox barCodeField;
+    private JTextField barCodeField;
     //private JTextField barCodeField;
     private JTextField quantityField;
-    private JTextField nameField;
+    private JComboBox nameField;
     private JTextField priceField;
 
     private JButton addItemButton;
@@ -96,15 +96,15 @@ public class PurchaseItemPanel extends JPanel {
         ArrayList<String> names = new ArrayList<String>();
         
         for (StockItem product : products){       	
-        	barCodes.add(product.getId());
+        	
         	names.add(product.getName());
         }
         
         
         // Initialize the textfields
-        barCodeField = new JComboBox(barCodes.toArray());
+        barCodeField = new JTextField("1");
         quantityField = new JTextField("1");
-        nameField = new JTextField(names.get(0));
+        nameField = new JComboBox(names.toArray());
         priceField = new JTextField();
 
         // Fill the dialog fields if the bar code text fields loses focus
@@ -157,7 +157,7 @@ public class PurchaseItemPanel extends JPanel {
     	StockItem stockItem = getStockItemByBarcode();
 
         if (stockItem != null) {
-            nameField.setText(stockItem.getName());
+            nameField.setToolTipText(stockItem.getName());
             String priceString = String.valueOf(stockItem.getPrice());
             priceField.setText(priceString);
         } else {
@@ -213,7 +213,7 @@ public class PurchaseItemPanel extends JPanel {
     public void reset() {
         //barCodeField.setText("");
         quantityField.setText("1");
-        nameField.setText("");
+        nameField.setToolTipText("");
         priceField.setText("");
     }
 
