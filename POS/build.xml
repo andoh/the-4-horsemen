@@ -42,8 +42,7 @@
 		</java>
 	</target>
 	
-	<target name="run"
-	        description="run the application" >
+	<target name="run" depends="build" description="run the application" >
 	    <!-- Run the Intro class -->
 		<java classname="ee.ut.math.tvt.thefourhorsemen.Intro"
 			fork="true">
