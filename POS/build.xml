@@ -42,13 +42,14 @@
 		</java>
 	</target>
 	
-	<target name="run"
-	        description="run the application" >
+	<target name="run" depends="build" description="run the application" >
 	    <!-- Run the Intro class -->
 		<java classname="ee.ut.math.tvt.thefourhorsemen.Intro"
 			fork="true">
 			<classpath path="${build}">
 				<pathelement path="lib/log4j-1.2.17.jar"/>
+				<pathelement path="lib/jgoodies-common-1.6.0.jar"/>
+				<pathelement path="lib/jgoodies-looks-2.5.3.jar"/>
 				<pathelement path="etc"/>
 			</classpath>
 			<jvmarg value="-Xdebug" />
