@@ -57,7 +57,7 @@
 		</java>
 	  </target>
 	
-	<target name="jrun">
+	<target name="jrun" depends="build">
 		<java jar="${build}/jar/thefourhorsemen.jar"
 			fork="true" />
 	</target>
