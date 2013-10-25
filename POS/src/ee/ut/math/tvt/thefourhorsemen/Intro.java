@@ -19,7 +19,7 @@ public class Intro
 	public static void main(String[] args) 
 	{
 		// Initialise the logger
-		Logger log = Logger.getLogger(Intro.class);
+		//Logger log = Logger.getLogger(Intro.class);
 		
 		try {
 			IntroUI.Window();
@@ -40,11 +40,17 @@ public class Intro
 		} else {
 
 			//Enne oli IntroUI
-			/*
-			Window introUI = new Window();
-			introUI.setVisible(true);
-			introUI.setAlwaysOnTop(true);
-			*/
+			
+			IntroUI introUI = new IntroUI();
+			try {
+				introUI.Window();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			//introUI.setVisible(true);
+			//introUI.setAlwaysOnTop(true);
+			
 			final SalesSystemUI ui = new SalesSystemUI(domainController);
 			ui.setVisible(true);
 
