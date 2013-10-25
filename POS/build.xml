@@ -36,8 +36,8 @@
 		<java classname="ee.ut.math.tvt.thefourhorsemen.Intro"
 			fork="true">
 			<classpath path="${build}">
-				<pathelement path ="lib/log4j-1.2.17.jar"/>
-				<pathelement path="etc" />
+				<pathelement path="lib/log4j-1.2.17.jar"/>
+				<pathelement path="etc"/>
 			</classpath>
 			<jvmarg value="-Xdebug" />
 			<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1044" />
@@ -95,10 +95,32 @@
     <delete dir="${dist}"/>
   </target>
 		
-	<target name="runc" depends="build" description="Run the application (console)">
-		<java classname="ee.ut.math.tvt.[team].Intro" classpathref="test.classpath" fork="yes">
-			<arg value="console" />
-		</java>
-	</target>		
+	<target name="git_commit">
+		<!-- Prompt for commit message -->
+		<input message="Commit message" addproperty="commit-message" />
+		<!-- Add all changed files to commit -->
+		<exec executable="git">
+			<arg value="add"/>
+			<arg value="-A"/>
+			<arg value=":/"/>
+		</exec>
+		<!-- Commit changes -->
+		<exec executable="git">
+			<arg value="commit"/>
+			<arg value="-m"/>
+			<arg value="${commit-message}"/>
+		</exec>
+		
+		<!-- Prompt for username and password-->
+		<input message="Username:" addproperty="commit-username" />
+		<input message="Password:" addproperty="commit-password"/>
+		
+		<!-- Push to GitHub -->
+		<exec executable="git">
+			<arg value="push"/>
+			<arg value="https://${commit-username}:${commit-password}@github.com/andoh/the-4-horsemen.git"/>
+			<arg value="master"/>
+		</exec>
+	</target>
 
 </project>
