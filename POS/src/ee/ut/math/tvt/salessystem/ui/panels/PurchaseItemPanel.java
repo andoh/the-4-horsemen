@@ -1,8 +1,11 @@
 package ee.ut.math.tvt.salessystem.ui.panels;
 
+import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerImpl;
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -10,9 +13,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,7 +35,8 @@ public class PurchaseItemPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
     // Text field on the dialogPane
-    private JTextField barCodeField;
+    private JComboBox barCodeField;
+    //private JTextField barCodeField;
     private JTextField quantityField;
     private JTextField nameField;
     private JTextField priceField;
@@ -80,14 +88,26 @@ public class PurchaseItemPanel extends JPanel {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 2));
         panel.setBorder(BorderFactory.createTitledBorder("Product"));
-
+        
+        SalesDomainControllerImpl sdc = new SalesDomainControllerImpl();
+        List<StockItem> products = sdc.loadWarehouseState();
+        
+        ArrayList<Long> barCodes = new ArrayList<Long>();
+        ArrayList<String> names = new ArrayList<String>();
+        
+        for (StockItem product : products){       	
+        	barCodes.add(product.getId());
+        	names.add(product.getName());
+        }
+        
+        
         // Initialize the textfields
-        barCodeField = new JTextField();
+        barCodeField = new JComboBox(barCodes.toArray());
         quantityField = new JTextField("1");
-        nameField = new JTextField();
+        nameField = new JTextField(names.get(0));
         priceField = new JTextField();
 
-        // Fill the dialog fields if the bar code text field loses focus
+        // Fill the dialog fields if the bar code text fields loses focus
         barCodeField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
             }
@@ -133,7 +153,8 @@ public class PurchaseItemPanel extends JPanel {
 
     // Fill dialog with data from the "database".
     public void fillDialogFields() {
-        StockItem stockItem = getStockItemByBarcode();
+        
+    	StockItem stockItem = getStockItemByBarcode();
 
         if (stockItem != null) {
             nameField.setText(stockItem.getName());
@@ -148,7 +169,7 @@ public class PurchaseItemPanel extends JPanel {
     // to the barCode textfield.
     private StockItem getStockItemByBarcode() {
         try {
-            int code = Integer.parseInt(barCodeField.getText());
+            int code = Integer.parseInt(barCodeField.getName());
             return model.getWarehouseTableModel().getItemById(code);
         } catch (NumberFormatException ex) {
             return null;
@@ -189,7 +210,7 @@ public class PurchaseItemPanel extends JPanel {
      * Reset dialog fields.
      */
     public void reset() {
-        barCodeField.setText("");
+        //barCodeField.setText("");
         quantityField.setText("1");
         nameField.setText("");
         priceField.setText("");
