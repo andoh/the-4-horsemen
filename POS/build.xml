@@ -31,6 +31,16 @@
   	
     <!--set log4j and other files in the right places -->
   </target>
+		
+	<target name="runc" depends="build" description="Run the application (console)">
+		<java classname="ee.ut.math.tvt.thefourhorsemen.Intro" fork="yes">
+			<classpath path="${build}">
+				<pathelement path="lib/log4j-1.2.17.jar"/>
+				<pathelement path="etc"/>
+			</classpath>
+			<arg value="console" />
+		</java>
+	</target>
 	
 	<target name="run"
 	        description="run the application" >
