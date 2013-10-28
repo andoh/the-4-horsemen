@@ -94,19 +94,16 @@ public class PurchaseItemPanel extends JPanel {
         products = sdc.loadWarehouseState();
         names = new ArrayList<String>();
         
-        
         //Gets product list from loadWarehouseState
         for (StockItem product : products){       		
         	names.add(product.getName());
         }
                 
         // Initialize the textfields(when start)
-        
-        barCodeField = new JTextField("1");
+        barCodeField = new JTextField(String.valueOf(products.get(0).getId()));
         quantityField = new JTextField("1");
         nameField = new JComboBox(names.toArray());
-        priceField = new JTextField(String.valueOf(products.get(1).getPrice()));
-
+        priceField = new JTextField(String.valueOf(products.get(0).getPrice()));
         
         //Fill dialog when Action performed.
         nameField.addActionListener(new ActionListener(){
@@ -132,7 +129,8 @@ public class PurchaseItemPanel extends JPanel {
             }
         });
 		*/
-        
+        quantityField.setEditable(false);
+        nameField.setEditable(false);
         barCodeField.setEditable(false);
         priceField.setEditable(false);
 
@@ -181,10 +179,11 @@ public class PurchaseItemPanel extends JPanel {
         	String priceString = String.valueOf(stockItem.getPrice()*Long.parseLong(quantityField.getText()));
         	
         	priceField.setText(priceString);
-        	
-       } else {
+       	}
+    	 else {
         	reset();
-        }    	
+        } 
+           	
    
     }
 

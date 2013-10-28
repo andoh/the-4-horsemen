@@ -186,7 +186,7 @@ public class PurchaseTab {
 
   // switch UI to the state that allows to proceed with the purchase
   private void startNewSale() {
-    purchasePane.reset();
+    //purchasePane.reset();
 
     purchasePane.setEnabled(true);
     submitPurchase.setEnabled(true);
@@ -196,7 +196,7 @@ public class PurchaseTab {
 
   // switch UI to the state that allows to initiate new purchase
   private void endSale() {
-    purchasePane.reset();
+    //purchasePane.reset();
 
     cancelPurchase.setEnabled(false);
     submitPurchase.setEnabled(false);
