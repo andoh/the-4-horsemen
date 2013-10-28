@@ -2,7 +2,6 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -15,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import org.apache.log4j.Logger;
 
@@ -48,6 +49,8 @@ public class PurchaseTab {
   private JTextField payment = new JTextField(4);
   
   private JLabel sum = new JLabel();
+  
+  private JFrame uus = new JFrame();
  
   public PurchaseTab(SalesDomainController controller,
       SalesSystemModel model)
@@ -187,7 +190,7 @@ public class PurchaseTab {
     		summa = summa + (Double)(model.getCurrentPurchaseTableModel().getValueAt(i, model.getCurrentPurchaseTableModel().findColumn("Sum")));
     	}
     	
-    	JFrame uus = new JFrame();
+    	
     	
     	uus.setTitle("Tellimuse kinnitamine");
     	uus.setSize(200, 400);
@@ -204,8 +207,12 @@ public class PurchaseTab {
     	elements.add(payment);
     	elements.add(new JLabel("Change"));
     	elements.add(change);
-    	elements.add(new JButton("Yes"));
-    	elements.add(new JButton("No"));
+    	
+    	JButton accept = new JButton("Accept");
+    	JButton cancel = new JButton("Cancel");
+    	
+    	elements.add(accept);
+    	elements.add(cancel);
     	
     	for (int i = 0; i < 4 ; i++ ){
     		gc.gridy = i;
@@ -214,7 +221,6 @@ public class PurchaseTab {
     			gc.gridx = j;
     			
     			uus.add( elements.poll(),gc);
-    			
     			
     		}
     	}
@@ -228,6 +234,52 @@ public class PurchaseTab {
     	
     	uus.setVisible(true);
     	
+    	accept.addActionListener(new ActionListener(){
+    		public void actionPerformed(ActionEvent e){
+    			try {
+					domainController.submitCurrentPurchase(
+					          model.getCurrentPurchaseTableModel().getTableRows()
+							);
+				} catch (VerificationFailedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+    		      endSale();
+    		}
+    	});
+    	
+    	cancel.addActionListener(new ActionListener(){
+    		public void actionPerformed(ActionEvent e){
+    			uus.setVisible(false);
+    		}
+    	});
+    	payment.getDocument().addDocumentListener(new DocumentListener(){
+    		public void changedUpdate(DocumentEvent e) {
+    			try {
+    				  				
+    				if (Double.parseDouble(payment.getText())<=0.0){
+    					payment.setText("0.0");
+    					change.setText("mina");
+    				}
+    				else{
+    					change.setText(String.valueOf(
+    	    					Double.parseDouble(payment.getText())-
+    	            			Double.parseDouble(sum.getText())));
+    				}
+    					
+    			}
+    			catch (Exception ex){
+    				change.setText("");
+    			}
+    		}
+    		public void removeUpdate(DocumentEvent e) {
+    			changedUpdate(e);
+    		}
+    		public void insertUpdate(DocumentEvent e) {
+    			changedUpdate(e);
+    		}
+    	});
+    	/*
     	payment.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	change.setText(String.valueOf(
@@ -235,6 +287,7 @@ public class PurchaseTab {
             			Double.parseDouble(sum.getText())));
             }
         });
+        */
     	
       log.debug("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
       domainController.submitCurrentPurchase(
@@ -281,16 +334,7 @@ public class PurchaseTab {
    *     that actually create the components shorter and cleaner.
    */
 
-  private GridBagConstraints getConstraintsForConfirmMenu() {
-	  GridBagConstraints gc = new GridBagConstraints();
-	  gc.fill = GridBagConstraints.HORIZONTAL;
-	  gc.anchor = GridBagConstraints.NORTH;
-	  gc.gridwidth = GridBagConstraints.REMAINDER;
-	  gc.weightx = 1.0d;
-	  gc.weighty = 0d;
-	  return gc;
-
-  }
+  
   
   private GridBagConstraints getConstraintsForPurchaseMenu() {
     GridBagConstraints gc = new GridBagConstraints();
