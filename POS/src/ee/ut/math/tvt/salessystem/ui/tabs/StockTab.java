@@ -16,6 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.JTableHeader;
 
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -29,6 +31,7 @@ public class StockTab {
   private JTextField name = new JTextField(10);
   private JTextField quantity = new JTextField(5);
   private JTextField price = new JTextField(5);
+  private JLabel wrongValues = new JLabel("Wrong values");
     
   private SalesSystemModel model;
 
@@ -80,32 +83,86 @@ public class StockTab {
     newProductWindow.setSize(200, 400);
     newProductWindow.setLocation(100, 100);
     newProductWindow.setLayout(new GridBagLayout());
-    
-    
-    JTextField ProductName = new JTextField();
-    JTextField ProductPrice = new JTextField();
-    JTextField ProductQuantity = new JTextField();
-    
-    JLabel ProductNameL = new JLabel("Name");
-    JLabel ProductPriceL = new JLabel("Price");
-    JLabel ProductQuantityL = new JLabel("Quantity");
-    
+        
     GridBagConstraints gbc = new GridBagConstraints();
 	
 	ArrayDeque<Component> el = new ArrayDeque<Component>();
 	
 	el.add(new JLabel("Name"));
 	el.add(name);
+	name.setColumns(10);
 	el.add(new JLabel("Price"));
 	el.add(price);
+	price.setColumns(5);
 	el.add(new JLabel("Quantity"));
 	el.add(quantity);
+	quantity.setColumns(5);
+	wrongValues.setVisible(false);
 	
 	JButton accept = new JButton("Accept");
 	JButton cancel = new JButton("Cancel");
 	
+	
 	el.add(accept);
 	el.add(cancel);
+	
+	
+	cancel.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			newProductWindow.dispose();
+		}
+	});
+	
+	accept.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			boolean toContinue = true;
+			
+			String currName = name.getText();
+			String currPriceStr = price.getText();
+			String currQuantityStr = quantity.getText();
+			
+			double currPrice=0;
+			int currQuantity=0;
+			
+			if(currName.isEmpty()) {
+				wrongValues.setVisible(true);
+				newProductWindow.pack();
+				toContinue = false;
+			}
+			
+			try{
+				currPrice = Double.parseDouble(currPriceStr);
+				if(currPrice < 0) {
+					throw(new Exception());
+				}
+			} catch(Exception ex) {
+				price.setText("");
+				wrongValues.setVisible(true);
+				newProductWindow.pack();
+				toContinue = false;
+			}
+			
+			try{
+				currQuantity = Integer.parseInt(currQuantityStr);
+				if(currQuantity < 0) {
+					throw(new Exception());
+				}
+			} catch(Exception ex) {
+				quantity.setText("");
+				wrongValues.setVisible(true);
+				newProductWindow.pack();
+				toContinue = false;
+			}
+			
+			// if everything is correct
+			// add product to list
+			if(toContinue) {
+				newProductWindow.dispose();	
+			}		
+		}
+		
+		
+	});
 	
 	for (int i = 0; i < 4 ; i++ ){
 		gbc.gridy = i;
@@ -117,12 +174,16 @@ public class StockTab {
 			
 		}
 	}
+	gbc.gridy = 4;
+	gbc.gridx = 0;
+	newProductWindow.add(wrongValues, gbc);
     
 
     addItem = new JButton("Add");
     addItem.addActionListener(new ActionListener(){
     	public void actionPerformed(ActionEvent e) {
     		newProductWindow.setVisible(true);
+    		newProductWindow.pack();
     	}
     	
     	

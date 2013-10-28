@@ -263,7 +263,7 @@ public class PurchaseTab {
     				  				
     				if (Double.parseDouble(payment.getText())<=0.0){
     					payment.setText("0.0");
-    					change.setText("mina");
+    					change.setText("");
     				}
     				else{
     					change.setText(String.valueOf(
