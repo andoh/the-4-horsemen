@@ -235,9 +235,15 @@ public class PurchaseItemPanel extends JPanel {
         	model.getCurrentPurchaseTableModel().fireTableDataChanged();
         	
         }catch (Exception e) {
-        	model.getCurrentPurchaseTableModel()
-            .addItem(new SoldItem(stockItem, quantity));
-        }
+        	if (quantity>(model.getWarehouseTableModel().getItemById(stockItem.getId())).getQuantity()){
+        		JOptionPane.showMessageDialog(null, "Laos pole küllaldaselt tooteid", "Viga sisestamisel",JOptionPane.ERROR_MESSAGE);;
+        	}
+        	else{
+        		model.getCurrentPurchaseTableModel()
+                .addItem(new SoldItem(stockItem, quantity));
+            	
+        	}
+        	}
     	}
     
     
