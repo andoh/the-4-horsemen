@@ -16,10 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.JTableHeader;
 
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 public class StockTab {
@@ -29,6 +28,7 @@ public class StockTab {
   private JFrame newProductWindow;
   
   private JTextField name = new JTextField(10);
+  private JTextField desc = new JTextField(10);
   private JTextField quantity = new JTextField(5);
   private JTextField price = new JTextField(5);
   private JLabel wrongValues = new JLabel("Wrong values");
@@ -91,6 +91,9 @@ public class StockTab {
 	el.add(new JLabel("Name"));
 	el.add(name);
 	name.setColumns(10);
+	el.add(new JLabel("Description"));
+	el.add(desc);
+	desc.setColumns(10);
 	el.add(new JLabel("Price"));
 	el.add(price);
 	price.setColumns(5);
@@ -118,13 +121,14 @@ public class StockTab {
 			boolean toContinue = true;
 			
 			String currName = name.getText();
+			String currDesc = desc.getText();
 			String currPriceStr = price.getText();
 			String currQuantityStr = quantity.getText();
 			
 			double currPrice=0;
 			int currQuantity=0;
 			
-			if(currName.isEmpty()) {
+			if(currName.isEmpty() || currDesc.isEmpty()) {
 				wrongValues.setVisible(true);
 				newProductWindow.pack();
 				toContinue = false;
@@ -157,14 +161,17 @@ public class StockTab {
 			// if everything is correct
 			// add product to list
 			if(toContinue) {
-				newProductWindow.dispose();	
+				long lastId = (long) model.getWarehouseTableModel().getRowCount();
+				StockItem stockItem = new StockItem(lastId+1,name.getText(),desc.getText(),Double.parseDouble(price.getText()),Integer.parseInt(quantity.getText()));
+				model.getWarehouseTableModel().addItem(stockItem);
+				newProductWindow.dispose();
 			}		
 		}
 		
 		
 	});
 	
-	for (int i = 0; i < 4 ; i++ ){
+	for (int i = 0; i < 5 ; i++ ){
 		gbc.gridy = i;
 		
 		for (int j = 0; j < 2 ; j++){
@@ -174,7 +181,7 @@ public class StockTab {
 			
 		}
 	}
-	gbc.gridy = 4;
+	gbc.gridy = 5;
 	gbc.gridx = 0;
 	newProductWindow.add(wrongValues, gbc);
     
