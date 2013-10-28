@@ -3,24 +3,14 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 
-
-import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
-import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
-import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
+import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerImpl;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
-import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
@@ -29,19 +19,10 @@ import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
 
 public class HistoryTab {
-    
 	
-	DefaultTableModel model = new DefaultTableModel(4,4);
-    JTable history = new JTable(model);
-    ArrayDeque<Object> orders = new ArrayDeque<Object>();
-    
+	ArrayDeque<Object> orders = new ArrayDeque<Object>();
 	
-    // TODO - implement!
-		
-   
-	public HistoryTab() {} 
-    
-    public ArrayDeque<Object> getOrders() {
+	public ArrayDeque<Object> getOrders() {
 		return orders;
 	}
 
@@ -49,17 +30,26 @@ public class HistoryTab {
 		this.orders = orders;
 	}
 
+	DefaultTableModel model = new DefaultTableModel(4,4);
+    JTable history = new JTable(model);
+    
+	
+    // TODO - implement!
+		
+   
+	public HistoryTab() {} 
+    
 	public Component draw() {
         // TODO - Sales history tabel  
 		JPanel panel = new JPanel();
 		
-		String[] sisend = (String[]) orders.pollFirst();
-		
-		
-
-		history.setValueAt(sisend[0], arg1, arg2);
-		history.setValueAt(sisend[1], arg1, arg2);
-		history.setValueAt(sisend[2], arg1, arg2);
+		while(!orders.isEmpty()){
+			String[] temp = (String[]) orders.poll();
+			history.setValueAt(temp[0], 1, 1);
+			history.setValueAt(temp[1], 1, 1);
+			history.setValueAt(temp[2], 1, 2);
+				
+		}
 		
 		panel.add(history);
 		

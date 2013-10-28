@@ -241,14 +241,15 @@ public class PurchaseTab {
     	accept.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){
     			try {
-					domainController.submitCurrentPurchase(
+    				domainController.submitCurrentPurchase(
 					          model.getCurrentPurchaseTableModel().getTableRows()
 							);
 				} catch (VerificationFailedException e1) {
 					// TODO Auto-generated catch block
+					System.out.println("Valesti läks");
 					e1.printStackTrace();
 				}
-    		      endSale();
+    		    endSale();
     		}
     	});
     	

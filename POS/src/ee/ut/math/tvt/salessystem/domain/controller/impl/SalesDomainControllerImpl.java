@@ -18,6 +18,8 @@ import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
 public class SalesDomainControllerImpl implements SalesDomainController {
 	
 	
+    
+	
 	
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
 		// Let's assume we have checked and found out that the buyer is underaged and
@@ -36,7 +38,9 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		ArrayDeque<Object> temp = HT.getOrders();
 		temp.add(display);
 		temp.add(goods);
-		
+		HT.setOrders(temp);
+		HT.draw();
+		System.out.println(temp);	
 		//throw new VerificationFailedException("Underaged!");
 		// XXX - Save purchase
 	}
