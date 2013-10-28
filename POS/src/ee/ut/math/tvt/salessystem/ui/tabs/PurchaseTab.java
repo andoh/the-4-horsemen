@@ -50,7 +50,7 @@ public class PurchaseTab {
   
   private JLabel sum = new JLabel();
   
-  private JFrame uus = new JFrame();
+  private JFrame uus;
  
   public PurchaseTab(SalesDomainController controller,
       SalesSystemModel model)
@@ -183,6 +183,10 @@ public class PurchaseTab {
   protected void submitPurchaseButtonClicked() {
     log.info("Sale complete");
     try {
+    	if(uus != null) {
+    		uus.dispose();
+    	}
+    	uus = new JFrame();
     	int len = model.getCurrentPurchaseTableModel().getRowCount();
     	
     	double summa = 0.0;
@@ -192,7 +196,7 @@ public class PurchaseTab {
     	
     	
     	
-    	uus.setTitle("Tellimuse kinnitamine");
+    	uus.setTitle("Confirm order");
     	uus.setSize(200, 400);
     	uus.setLocation(100, 100);
     	uus.setLayout(new GridBagLayout());

@@ -1,22 +1,35 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
-import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayDeque;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
 
+import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 public class StockTab {
 
   private JButton addItem;
 
+  private JFrame newProductWindow;
+  
+  private JTextField name = new JTextField(10);
+  private JTextField quantity = new JTextField(5);
+  private JTextField price = new JTextField(5);
+    
   private SalesSystemModel model;
 
   public StockTab(SalesSystemModel model) {
@@ -57,8 +70,63 @@ public class StockTab {
 
     gc.anchor = GridBagConstraints.NORTHWEST;
     gc.weightx = 0;
+    
+    if(newProductWindow != null) {
+    	newProductWindow.dispose();
+    }
+    newProductWindow = new JFrame();
+    
+    newProductWindow.setTitle("Insert new product");
+    newProductWindow.setSize(200, 400);
+    newProductWindow.setLocation(100, 100);
+    newProductWindow.setLayout(new GridBagLayout());
+    
+    
+    JTextField ProductName = new JTextField();
+    JTextField ProductPrice = new JTextField();
+    JTextField ProductQuantity = new JTextField();
+    
+    JLabel ProductNameL = new JLabel("Name");
+    JLabel ProductPriceL = new JLabel("Price");
+    JLabel ProductQuantityL = new JLabel("Quantity");
+    
+    GridBagConstraints gbc = new GridBagConstraints();
+	
+	ArrayDeque<Component> el = new ArrayDeque<Component>();
+	
+	el.add(new JLabel("Name"));
+	el.add(name);
+	el.add(new JLabel("Price"));
+	el.add(price);
+	el.add(new JLabel("Quantity"));
+	el.add(quantity);
+	
+	JButton accept = new JButton("Accept");
+	JButton cancel = new JButton("Cancel");
+	
+	el.add(accept);
+	el.add(cancel);
+	
+	for (int i = 0; i < 4 ; i++ ){
+		gbc.gridy = i;
+		
+		for (int j = 0; j < 2 ; j++){
+			gbc.gridx = j;
+			
+			newProductWindow.add( el.poll(),gbc);
+			
+		}
+	}
+    
 
     addItem = new JButton("Add");
+    addItem.addActionListener(new ActionListener(){
+    	public void actionPerformed(ActionEvent e) {
+    		newProductWindow.setVisible(true);
+    	}
+    	
+    	
+    });
     gc.gridwidth = GridBagConstraints.RELATIVE;
     gc.weightx = 1.0;
     panel.add(addItem, gc);
