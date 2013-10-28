@@ -131,7 +131,7 @@ public class PurchaseItemPanel extends JPanel {
         });
 		*/
         quantityField.setEditable(true);
-        nameField.setEditable(true);
+        nameField.setEditable(false);
         barCodeField.setEditable(false);
         priceField.setEditable(false);
 

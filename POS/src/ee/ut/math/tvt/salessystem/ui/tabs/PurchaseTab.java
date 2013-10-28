@@ -1,23 +1,27 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
-import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
-import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
-import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
-import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
-
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayDeque;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
+
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
+import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
@@ -38,8 +42,13 @@ public class PurchaseTab {
   private PurchaseItemPanel purchasePane;
 
   private SalesSystemModel model;
-
-
+  
+  private JLabel change = new JLabel();
+  
+  private JTextField payment = new JTextField(4);
+  
+  private JLabel sum = new JLabel();
+ 
   public PurchaseTab(SalesDomainController controller,
       SalesSystemModel model)
   {
@@ -172,12 +181,60 @@ public class PurchaseTab {
     log.info("Sale complete");
     try {
     	int len = model.getCurrentPurchaseTableModel().getRowCount();
-    	double sum = 0;
-    	for (int i=0;i<len;i++){
-    		sum = sum + (Double)(model.getCurrentPurchaseTableModel().getValueAt(i, model.getCurrentPurchaseTableModel().findColumn("Sum")));
+    	
+    	double summa = 0.0;
+    	for (int i = 0 ; i<model.getCurrentPurchaseTableModel().getRowCount() ; i++){
+    		summa = summa + (Double)(model.getCurrentPurchaseTableModel().getValueAt(i, model.getCurrentPurchaseTableModel().findColumn("Sum")));
     	}
     	
-    	JOptionPane.showMessageDialog(null,sum);
+    	JFrame uus = new JFrame();
+    	
+    	uus.setTitle("Tellimuse kinnitamine");
+    	uus.setSize(200, 400);
+    	uus.setLocation(100, 100);
+    	uus.setLayout(new GridBagLayout());
+    	
+    	GridBagConstraints gc = new GridBagConstraints();
+    	
+    	ArrayDeque<Component> elements = new ArrayDeque<Component>();
+    	
+    	elements.add(new JLabel("Total"));
+    	elements.add(sum);
+    	elements.add(new JLabel("Payment"));
+    	elements.add(payment);
+    	elements.add(new JLabel("Change"));
+    	elements.add(change);
+    	elements.add(new JButton("Yes"));
+    	elements.add(new JButton("No"));
+    	
+    	for (int i = 0; i < 4 ; i++ ){
+    		gc.gridy = i;
+    		
+    		for (int j = 0; j < 2 ; j++){
+    			gc.gridx = j;
+    			
+    			uus.add( elements.poll(),gc);
+    			
+    			
+    		}
+    	}
+    	
+   	
+ 
+    	
+    	sum.setText(String.valueOf(summa));
+    	change.setText("0.0");
+    	
+    	
+    	uus.setVisible(true);
+    	
+    	payment.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	change.setText(String.valueOf(
+            			Double.parseDouble(payment.getText())-
+            			Double.parseDouble(sum.getText())));
+            }
+        });
     	
       log.debug("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
       domainController.submitCurrentPurchase(
@@ -189,7 +246,6 @@ public class PurchaseTab {
       log.error(e1.getMessage());
     }
   }
-
 
 
   /* === Helper methods that bring the whole purchase-tab to a certain state
@@ -225,6 +281,17 @@ public class PurchaseTab {
    *     that actually create the components shorter and cleaner.
    */
 
+  private GridBagConstraints getConstraintsForConfirmMenu() {
+	  GridBagConstraints gc = new GridBagConstraints();
+	  gc.fill = GridBagConstraints.HORIZONTAL;
+	  gc.anchor = GridBagConstraints.NORTH;
+	  gc.gridwidth = GridBagConstraints.REMAINDER;
+	  gc.weightx = 1.0d;
+	  gc.weighty = 0d;
+	  return gc;
+
+  }
+  
   private GridBagConstraints getConstraintsForPurchaseMenu() {
     GridBagConstraints gc = new GridBagConstraints();
 
