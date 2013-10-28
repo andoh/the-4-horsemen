@@ -22,6 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -207,24 +208,39 @@ public class PurchaseItemPanel extends JPanel {
     public void addItemEventHandler() {
         // add chosen item to the shopping cart.
         StockItem stockItem = getStockItemByBarcode();
-        
+        int quantity = 1;
         if (stockItem != null) {
-            int quantity;
+            
             try {
                 quantity = Integer.parseInt(quantityField.getText());
             } catch (NumberFormatException ex) {
                 quantity = 1;
             }
             
-            model.getCurrentPurchaseTableModel()
-                .addItem(new SoldItem(stockItem, quantity));
         }
-    }
+        
+        try {
+        	//Tries do find item in current table
+        	SoldItem si = model.getCurrentPurchaseTableModel().getItemById(stockItem.getId());
+        	//If not found, get value and add quantity
+        	int totalQuantity = quantity+si.getQuantity();
+        	
+        	if (totalQuantity>model.getWarehouseTableModel().getItemById(stockItem.getId()).getQuantity()){
+        		JOptionPane.showMessageDialog(null, "Laos pole küllaldaselt tooteid", "Viga sisestamisel",JOptionPane.ERROR_MESSAGE);;
+        	}
+        	else{
+        		si.setQuantity(totalQuantity); 
+        	}
+        	
+        	model.getCurrentPurchaseTableModel().fireTableDataChanged();
+        	
+        }catch (Exception e) {
+        	model.getCurrentPurchaseTableModel()
+            .addItem(new SoldItem(stockItem, quantity));
+        }
+    	}
     
-    public void notEnoughItemInStock() {
-    	//Code that controls stock and displays panel with error(ando)
-    }
-
+    
     /**
      * Sets whether or not this component is enabled.
      */
