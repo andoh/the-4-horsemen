@@ -129,8 +129,8 @@ public class PurchaseItemPanel extends JPanel {
             }
         });
 		*/
-        quantityField.setEditable(false);
-        nameField.setEditable(false);
+        quantityField.setEditable(true);
+        nameField.setEditable(true);
         barCodeField.setEditable(false);
         priceField.setEditable(false);
 
@@ -207,7 +207,7 @@ public class PurchaseItemPanel extends JPanel {
     public void addItemEventHandler() {
         // add chosen item to the shopping cart.
         StockItem stockItem = getStockItemByBarcode();
-        System.out.println(stockItem);
+        
         if (stockItem != null) {
             int quantity;
             try {
