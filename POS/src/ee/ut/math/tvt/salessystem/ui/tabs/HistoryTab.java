@@ -2,10 +2,13 @@ package ee.ut.math.tvt.salessystem.ui.tabs;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.ArrayDeque;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -29,9 +32,9 @@ public class HistoryTab {
 	public void setOrders(ArrayDeque<Object> orders) {
 		this.orders = orders;
 	}
-
-	DefaultTableModel model = new DefaultTableModel(4,4);
-    JTable history = new JTable(model);
+	String col[] = {"Date","Time","Sum"};
+	DefaultTableModel model = new DefaultTableModel(col,4);
+    JTable history;
     
 	
     // TODO - implement!
@@ -42,16 +45,33 @@ public class HistoryTab {
 	public Component draw() {
         // TODO - Sales history tabel  
 		JPanel panel = new JPanel();
-		
-		while(!orders.isEmpty()){
+		panel.setLayout(new FlowLayout());
+		history=new JTable(model){@Override
+			public boolean isCellEditable(int arg0, int arg1){
+			return false;
+		}
+		};
+		panel.add(history);
+		GridBagConstraints gc = new GridBagConstraints();
+	    GridBagLayout gb = new GridBagLayout();
+	    gc.fill = GridBagConstraints.BOTH;
+	    gc.weightx = 1.0;
+	    gc.weighty = 1.0;
+	    
+	    JScrollPane scrollPane = new JScrollPane(history);
+	    
+	    panel.setLayout(gb);
+	    panel.add(scrollPane, gc);
+	    
+		while(orders.isEmpty()==false){
 			String[] temp = (String[]) orders.poll();
-			history.setValueAt(temp[0], 1, 1);
-			history.setValueAt(temp[1], 1, 1);
-			history.setValueAt(temp[2], 1, 2);
+			history.setValueAt(temp[0], 0, 0);
+			history.setValueAt(temp[1], 1, 0);
+			history.setValueAt(temp[2], 2, 0);
 				
 		}
 		
-		panel.add(history);
+		
 		
 		panel.setBackground(Color.WHITE);
 		

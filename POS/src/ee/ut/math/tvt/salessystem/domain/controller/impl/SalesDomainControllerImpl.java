@@ -40,7 +40,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		temp.add(goods);
 		HT.setOrders(temp);
 		HT.draw();
-		System.out.println(temp);	
+		System.out.println();
 		//throw new VerificationFailedException("Underaged!");
 		// XXX - Save purchase
 	}
