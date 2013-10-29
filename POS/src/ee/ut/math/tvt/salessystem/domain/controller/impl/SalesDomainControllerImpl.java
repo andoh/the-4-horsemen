@@ -1,16 +1,16 @@
 package ee.ut.math.tvt.salessystem.domain.controller.impl;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
-import ee.ut.math.tvt.salessystem.ui.tabs.HistoryTab;
+import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
+import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 /**
  * Implementation of the sales domain controller.
@@ -19,29 +19,37 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	
 	
     
+	private SalesSystemModel model;
 	
+	public void setModel(SalesSystemModel model) {
+		this.model = model;
+	}
 	
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
 		// Let's assume we have checked and found out that the buyer is underaged and
 		// cannot buy chupa-chups
+		//throw new VerificationFailedException("Underaged!");
+		
+		
 		
 		String dateStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
 		String timeStamp = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 		
 		Double summa = 0.0;
-		for (int i = 0 ; i<goods.size() ; i++){
-    		summa = summa + goods.get(i).getSum();
+		for (SoldItem si : goods){
+    		summa += si.getSum();
     	}
-		String[] display = {dateStamp,timeStamp,String.valueOf(summa)};
 		
-		HistoryTab HT = new HistoryTab();
-		ArrayDeque<Object> temp = HT.getOrders();
-		temp.add(display);
-		temp.add(goods);
-		HT.setOrders(temp);
-		HT.draw();
-		System.out.println();
-		//throw new VerificationFailedException("Underaged!");
+		HistoryItem item = new HistoryItem(goods, dateStamp, timeStamp, summa);
+		
+		model.getCurrentHistoryTableModel().addItem(item);
+		
+		//String[] display = {dateStamp,timeStamp,String.valueOf(summa)};
+		
+		
+		
+		
+		
 		// XXX - Save purchase
 	}
 

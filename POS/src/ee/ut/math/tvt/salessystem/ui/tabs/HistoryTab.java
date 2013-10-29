@@ -12,7 +12,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import ee.ut.math.tvt.salessystem.domain.controller.impl.SalesDomainControllerImpl;
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.ui.model.HistoryTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 /**
@@ -22,9 +23,22 @@ import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 
 public class HistoryTab {
+		
+	private SalesSystemModel model;
+	
+	private final SalesDomainController domainController;
+	
+	private HistoryTableModel historyModel;
 	
 	ArrayDeque<Object> orders = new ArrayDeque<Object>();
 	
+	public HistoryTab(SalesDomainController controller,
+		      SalesSystemModel modelIn) {
+		
+		this.domainController = controller;
+	    this.model = modelIn;
+	} 	
+
 	public ArrayDeque<Object> getOrders() {
 		return orders;
 	}
@@ -33,20 +47,25 @@ public class HistoryTab {
 		this.orders = orders;
 	}
 	String col[] = {"Date","Time","Sum"};
-	DefaultTableModel model = new DefaultTableModel(col,4);
+	HistoryTableModel tableModel;
     JTable history;
     
 	
     // TODO - implement!
 		
-   
-	public HistoryTab() {} 
-    
+
 	public Component draw() {
+		historyModel = model.getCurrentHistoryTableModel();
+		tableModel = model.getCurrentHistoryTableModel();
+		//tableModel = new DefaultTableModel(col,4)
+		
+		
+		
         // TODO - Sales history tabel  
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout());
-		history=new JTable(model){@Override
+		panel.setLayout(new FlowLayout());		
+		
+		history=new JTable(tableModel){@Override
 			public boolean isCellEditable(int arg0, int arg1){
 			return false;
 		}
@@ -65,7 +84,7 @@ public class HistoryTab {
 	    
 		while(orders.isEmpty()==false){
 			ArrayDeque<Object> temp = getOrders();
-			Object[] temps = (Object[]) temp.pop();
+			Object[] temps = (Object[]) temp.pop(); // TODO: cast annab errori
 			System.out.println(temps[0]);
 			history.setValueAt(temps[0], 0, 0);
 			history.setValueAt(temps[1], 1, 0);

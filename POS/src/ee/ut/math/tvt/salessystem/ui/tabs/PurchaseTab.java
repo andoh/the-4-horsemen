@@ -240,10 +240,13 @@ public class PurchaseTab {
     	
     	accept.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){
+    			// Kui confirmiti ja tahame tellimuse ära salvestada
     			try {
     				domainController.submitCurrentPurchase(
 					          model.getCurrentPurchaseTableModel().getTableRows()
 							);
+    				model.getCurrentPurchaseTableModel().clear();
+    				uus.dispose();
 				} catch (VerificationFailedException e1) {
 					// TODO Auto-generated catch block
 					System.out.println("Valesti läks");
@@ -262,7 +265,7 @@ public class PurchaseTab {
     		public void changedUpdate(DocumentEvent e) {
     			try {
     				  				
-    				if (Double.parseDouble(payment.getText())<=0.0){
+    				if (Double.parseDouble(payment.getText())<0.0){
     					payment.setText("0.0");
     					change.setText("");
     				}
@@ -295,12 +298,11 @@ public class PurchaseTab {
         */
     	
       log.debug("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
-      domainController.submitCurrentPurchase(
+      //System.out.println("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel().getTableRows().size());
+      /*domainController.submitCurrentPurchase(
           model.getCurrentPurchaseTableModel().getTableRows()
-      );
-      endSale();
-      model.getCurrentPurchaseTableModel().clear();
-    } catch (VerificationFailedException e1) {
+      );*/
+    } catch (Exception e1) {  //VerificationFailedException e1) {
       log.error(e1.getMessage());
     }
   }
