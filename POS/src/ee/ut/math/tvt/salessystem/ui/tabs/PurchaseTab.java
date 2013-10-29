@@ -51,6 +51,8 @@ public class PurchaseTab {
   private JLabel sum = new JLabel();
   
   private JFrame uus;
+  
+  private JLabel payment_low = new JLabel("Payment is too small!");
  
   public PurchaseTab(SalesDomainController controller,
       SalesSystemModel model)
@@ -197,8 +199,8 @@ public class PurchaseTab {
     	
     	
     	uus.setTitle("Confirm order");
-    	uus.setSize(200, 400);
-    	uus.setLocation(100, 100);
+    	uus.setSize(225, 200); // Tegin suurused ümber paremaks tunnetuseks
+    	uus.setLocation(750, 125); // ja paremaks positsioneerimiseks - Rasmus
     	uus.setLayout(new GridBagLayout());
     	
     	GridBagConstraints gc = new GridBagConstraints();
@@ -218,6 +220,8 @@ public class PurchaseTab {
     	elements.add(accept);
     	elements.add(cancel);
     	
+    	
+    	
     	for (int i = 0; i < 4 ; i++ ){
     		gc.gridy = i;
     		
@@ -229,24 +233,31 @@ public class PurchaseTab {
     		}
     	}
     	
-   	
- 
+    	// "Payment is too small!" notification placement
+    	gc.gridy = 4;
+    	gc.gridx = 0;
+    	gc.gridwidth = 2;
+    	uus.add(payment_low, gc);
+    	payment_low.setVisible(false);
     	
     	sum.setText(String.valueOf(summa));
     	change.setText("0.0");
-    	
     	
     	uus.setVisible(true);
     	
     	accept.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){
     			// Kui confirmiti ja tahame tellimuse ära salvestada
-    			try {
-    				domainController.submitCurrentPurchase(
-					          model.getCurrentPurchaseTableModel().getTableRows()
-							);
-    				model.getCurrentPurchaseTableModel().clear();
-    				uus.dispose();
+    			try 
+    			{
+    				if (Double.parseDouble(payment.getText()) >= Double.parseDouble(sum.getText())){
+    					domainController.submitCurrentPurchase(model.getCurrentPurchaseTableModel().getTableRows());
+    					model.getCurrentPurchaseTableModel().clear();
+	    				uus.dispose();
+    				}
+    				else {
+    					payment_low.setVisible(true);
+    				}
 				} catch (VerificationFailedException e1) {
 					// TODO Auto-generated catch block
 					System.out.println("Valesti läks");
