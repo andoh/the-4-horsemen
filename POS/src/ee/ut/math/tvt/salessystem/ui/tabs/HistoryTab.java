@@ -64,10 +64,12 @@ public class HistoryTab {
 	    panel.add(scrollPane, gc);
 	    
 		while(orders.isEmpty()==false){
-			String[] temp = (String[]) orders.poll();
-			history.setValueAt(temp[0], 0, 0);
-			history.setValueAt(temp[1], 1, 0);
-			history.setValueAt(temp[2], 2, 0);
+			ArrayDeque<Object> temp = getOrders();
+			String[] temps = (String[]) temp.pop();
+			System.out.println();
+			history.setValueAt(temps[0], 0, 0);
+			history.setValueAt(temps[1], 1, 0);
+			history.setValueAt(temps[2], 2, 0);
 				
 		}
 		
