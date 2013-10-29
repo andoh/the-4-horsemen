@@ -65,7 +65,7 @@ public class HistoryTab {
 	    
 		while(orders.isEmpty()==false){
 			ArrayDeque<Object> temp = getOrders();
-			String[] temps = (String[]) temp.pop();
+			Object[] temps = (Object[]) temp.pop();
 			System.out.println(temps[0]);
 			history.setValueAt(temps[0], 0, 0);
 			history.setValueAt(temps[1], 1, 0);
