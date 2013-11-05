@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayDeque;
 
 import javax.swing.BorderFactory;
@@ -295,9 +296,10 @@ public class PurchaseTab {
     					change.setText("");
     				}
     				else{
+    					DecimalFormat format_two = new DecimalFormat("#.##"); // Ugly fix, but couldn't find better... will do for now
     					change.setText(String.valueOf(
-    	    					Double.parseDouble(payment.getText())-
-    	            			Double.parseDouble(sum.getText())));
+    							format_two.format(
+    									Double.parseDouble(payment.getText()) - Double.parseDouble(sum.getText()))));
     				}
     					
     			}
