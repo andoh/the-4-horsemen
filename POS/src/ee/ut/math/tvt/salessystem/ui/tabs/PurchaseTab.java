@@ -53,6 +53,8 @@ public class PurchaseTab {
   private JFrame uus;
   
   private JLabel payment_low = new JLabel("Payment is too small!");
+  
+  private JLabel no_payment = new JLabel("No payment added!");
  
   public PurchaseTab(SalesDomainController controller,
       SalesSystemModel model)
@@ -240,6 +242,13 @@ public class PurchaseTab {
     	uus.add(payment_low, gc);
     	payment_low.setVisible(false);
     	
+    	// "No payment added!" notification placement
+    	gc.gridy = 4;
+    	gc.gridx = 0;
+    	gc.gridwidth = 2;
+    	uus.add(no_payment, gc);
+    	no_payment.setVisible(false);
+    	
     	sum.setText(String.valueOf(summa));
     	change.setText("0.0");
     	
@@ -250,17 +259,22 @@ public class PurchaseTab {
     			// Kui confirmiti ja tahame tellimuse ära salvestada
     			try 
     			{
-    				if (Double.parseDouble(payment.getText()) >= Double.parseDouble(sum.getText())){
+    				if (payment.getText().isEmpty()) {
+    					payment_low.setVisible(false); // in case we had this error before
+    					no_payment.setVisible(true);
+    				}
+    				else if (Double.parseDouble(payment.getText()) >= Double.parseDouble(sum.getText())){
     					domainController.submitCurrentPurchase(model.getCurrentPurchaseTableModel().getTableRows());
     					model.getCurrentPurchaseTableModel().clear();
 	    				uus.dispose();
     				}
     				else {
+    					no_payment.setVisible(false); // in case we had this error before
     					payment_low.setVisible(true);
     				}
 				} catch (VerificationFailedException e1) {
 					// TODO Auto-generated catch block
-					System.out.println("Valesti läks");
+					System.out.println("Valesti l2ks");
 					e1.printStackTrace();
 				}
     		    endSale();
