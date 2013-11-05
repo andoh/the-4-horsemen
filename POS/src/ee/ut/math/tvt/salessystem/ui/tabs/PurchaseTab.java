@@ -202,8 +202,8 @@ public class PurchaseTab {
     	
     	
     	uus.setTitle("Confirm order");
-    	uus.setSize(225, 200); // Tegin suurused ümber paremaks tunnetuseks
-    	uus.setLocation(750, 125); // ja paremaks positsioneerimiseks - Rasmus
+    	uus.setSize(225, 200); // Resized the window for better flow
+    	uus.setLocation(750, 125); // and better positioning - Rasmus
     	uus.setLayout(new GridBagLayout());
     	
     	GridBagConstraints gc = new GridBagConstraints();
@@ -257,7 +257,7 @@ public class PurchaseTab {
     	
     	accept.addActionListener(new ActionListener(){
     		public void actionPerformed(ActionEvent e){
-    			// Kui confirmiti ja tahame tellimuse ära salvestada
+    			// If confirmed and we want to save the purchase
     			try 
     			{
     				if (payment.getText().isEmpty()) {

@@ -226,7 +226,7 @@ public class PurchaseItemPanel extends JPanel {
         	int totalQuantity = quantity+si.getQuantity();
         	
         	if (totalQuantity>model.getWarehouseTableModel().getItemById(stockItem.getId()).getQuantity()){
-        		JOptionPane.showMessageDialog(null, "Laos pole küllaldaselt tooteid", "Viga sisestamisel",JOptionPane.ERROR_MESSAGE);;
+        		JOptionPane.showMessageDialog(null, "Insufficient goods in stock", "Input error",JOptionPane.ERROR_MESSAGE);;
         	}
         	else{
         		si.setQuantity(totalQuantity); 
@@ -236,7 +236,7 @@ public class PurchaseItemPanel extends JPanel {
         	
         }catch (Exception e) {
         	if (quantity>(model.getWarehouseTableModel().getItemById(stockItem.getId())).getQuantity()){
-        		JOptionPane.showMessageDialog(null, "Laos pole küllaldaselt tooteid", "Viga sisestamisel",JOptionPane.ERROR_MESSAGE);;
+        		JOptionPane.showMessageDialog(null, "Insufficient goods in stock", "Input error",JOptionPane.ERROR_MESSAGE);;
         	}
         	else{
         		model.getCurrentPurchaseTableModel()
