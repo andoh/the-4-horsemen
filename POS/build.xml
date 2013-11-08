@@ -8,6 +8,14 @@
   <property name="src" location="src"/>
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
+  <property name="lib.dir" value="lib" />
+		
+    <!-- Classpath declaration. -->
+    <path id="lib.class.path">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
 	
 	
   <target name="init">
@@ -161,5 +169,15 @@
 				<arg value="master"/>
 			</exec>
 		</target>
+		
+	  	<!-- Start the HSQL DB server -->
+	  	<target name="startdb" description="Run HSQL database server with clean DB">
+	  	    <!-- Delete database files -->
+	  	    <!--delete dir="${database.dir}" /-->
+	  	    <java classname="org.hsqldb.Server" fork="yes" classpathref="lib.class.path" failonerror="true">
+	  	        <arg value="-database.0" />
+	  	        <arg value="file:${database.dir}/db" />
+	  	    </java>
+	  	</target>
 
 </project>
