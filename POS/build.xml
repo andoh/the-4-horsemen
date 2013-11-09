@@ -1,4 +1,9 @@
 <!-- TODO: Define classpaths in one place. Right now, classpath definitions are scattered and inconsistent. -->
+<!-- NOTES FOR FUTURE:
+	1) Paths must be declared in global properties. Other solutions will not work
+	2) arg values must be given separately - one-liners will only cause errors
+	3) Due to different setup, out-of-box solutions (e.g from Tarkvaratehnika) will not work
+	-->
 
 	<project name="POS" default="dist" basedir=".">
     <description>
@@ -10,6 +15,13 @@
   <property name="dist"  location="dist"/>
   <property name="lib.dir" value="lib" />
 		
+  <!-- database global properties -->
+  <property name="data.dir"	value="${basedir}/data"/>
+  <property name="db.file"	value="${data.dir}/POSdb"/>
+  <property name="db.alias"	value="POS"/>
+  <property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POSdb"/>
+  <property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
+		
     <!-- Classpath declaration. -->
     <path id="lib.class.path">
         <fileset dir="${lib.dir}">
@@ -17,6 +29,30 @@
         </fileset>
     </path>
 	
+	<!-- Compilation classpath -->
+	<path id="compile.classpath">
+        <fileset dir="${lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+		<!-- These lines seem to be very important -->
+        <fileset dir="${lib.hibernate.dir}">
+             <include name="*.jar"/>
+        </fileset>
+	 </path>
+	
+	<!-- An attempt for database classpath declarations - seems to work for now -->
+	<path id="run.classpath">
+        <pathelement location="${build.classes.dir}"/>
+        <!-- configuration -->
+        <pathelement location="${conf.dir}"/>
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+
+        <fileset dir="${lib.hibernate.dir}">
+             <include name="*.jar"/>
+        </fileset>
+	</path>
 	
   <target name="init">
     <!-- Create the time stamp -->
@@ -174,10 +210,23 @@
 	  	<target name="startdb" description="Run HSQL database server with clean DB">
 	  	    <!-- Delete database files -->
 	  	    <!--delete dir="${database.dir}" /-->
-	  	    <java classname="org.hsqldb.Server" fork="yes" classpathref="lib.class.path" failonerror="true">
+	  	    <java classname="org.hsqldb.Server" fork="yes" classpathref="run.classpath" failonerror="true">
+	  	    	<!--arg value="-database.0 '${db.file}'" /-->
+	  	    	<!--arg value="-dbname.0 '${db.alias}'" /-->
 	  	        <arg value="-database.0" />
-	  	        <arg value="file:${database.dir}/db" />
+	  	    	<arg value="${db.file}" />
+	  	        <!--arg value="file:${database.dir}/db" /-->
 	  	    </java>
 	  	</target>
+		
+		<!-- Start the HSQL DB browser tool -->
+		<target name="dbManager" description="Start HSQL DB manager">
+		    <java classname="org.hsqldb.util.DatabaseManagerSwing" fork="yes" classpathref="run.classpath" failonerror="true">
+		        <arg value="--user" />
+		    	<arg value="sa" />
+		    	<arg value="--url" />
+		    	<arg value="${db.url}" />
+		    </java>
+		</target>
 
 </project>
