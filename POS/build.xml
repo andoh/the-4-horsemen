@@ -19,7 +19,7 @@
   <property name="data.dir"	value="${basedir}/data"/>
   <property name="db.file"	value="${data.dir}/POSdb"/>
   <property name="db.alias"	value="POS"/>
-  <property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POSdb"/>
+  <property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
   <property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
 		
     <!-- Classpath declaration. -->
@@ -46,7 +46,7 @@
         <!-- configuration -->
         <pathelement location="${conf.dir}"/>
         <fileset dir="${lib.dir}">
-            <include name="**/*.jar"/>
+            <include name="*.jar"/>
         </fileset>
 
         <fileset dir="${lib.hibernate.dir}">
@@ -215,6 +215,8 @@
 	  	    	<!--arg value="-dbname.0 '${db.alias}'" /-->
 	  	        <arg value="-database.0" />
 	  	    	<arg value="${db.file}" />
+	  	    	<arg value="-dbname.0" />
+	  	    	<arg value="${db.alias}" />
 	  	        <!--arg value="file:${database.dir}/db" /-->
 	  	    </java>
 	  	</target>
@@ -227,6 +229,15 @@
 		    	<arg value="--url" />
 		    	<arg value="${db.url}" />
 		    </java>
+		</target>
+		
+		<target name="stopdb">
+		  <sql
+		    classpathref="run.classpath"
+		    driver="org.hsqldb.jdbcDriver"
+		    url="jdbc:hsqldb:hsql://localhost/POS"
+		    userid="sa" password=""
+		    autocommit="true">SHUTDOWN</sql>
 		</target>
 
 </project>
