@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
-
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
@@ -19,6 +18,7 @@ import ee.ut.math.tvt.salessystem.domain.data.StockItem;
  * A simple CLI (limited functionality).
  * 
  */
+
 public class ConsoleUI {
 	private static final Logger log = Logger.getLogger(ConsoleUI.class);
 
@@ -34,7 +34,7 @@ public class ConsoleUI {
 		cart = new ArrayList<StockItem>();
 		warehouse = new ArrayList<StockItem>();
 	}
-
+	
 	/**
 	 * Run the sales system CLI.
 	 */
@@ -86,8 +86,7 @@ public class ConsoleUI {
 		System.out.println("h\t\tShow this help");
 		System.out.println("w\t\tShow warehouse contents");
 		System.out.println("c\t\tShow cart contents");
-		System.out
-				.println("a IDX NR \tAdd NR of stock item with index IDX to the cart");
+		System.out.println("a IDX NR \tAdd NR of stock item with index IDX to the cart");
 		System.out.println("p\t\tPurchase the shopping cart");
 		System.out.println("r\t\tReset the shopping cart");
 		System.out.println("-------------------------");
@@ -106,8 +105,10 @@ public class ConsoleUI {
 
 		if (c[0].equals("h"))
 			printUsage();
-		else if (c[0].equals("q"))
+		else if (c[0].equals("q")){
+			dc.endSession();
 			System.exit(0);
+		}
 		else if (c[0].equals("w"))
 			showStock(warehouse);
 		else if (c[0].equals("c"))

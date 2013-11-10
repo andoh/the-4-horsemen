@@ -22,12 +22,12 @@
   <property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
   <property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
 		
-    <!-- Classpath declaration. -->
+    <!-- Classpath declaration. >
     <path id="lib.class.path">
         <fileset dir="${lib.dir}">
             <include name="**/*.jar" />
         </fileset>
-    </path>
+    </path-->
 	
 	<!-- Compilation classpath -->
 	<path id="compile.classpath">
@@ -208,16 +208,11 @@
 		
 	  	<!-- Start the HSQL DB server -->
 	  	<target name="startdb" description="Run HSQL database server with clean DB">
-	  	    <!-- Delete database files -->
-	  	    <!--delete dir="${database.dir}" /-->
 	  	    <java classname="org.hsqldb.Server" fork="yes" classpathref="run.classpath" failonerror="true">
-	  	    	<!--arg value="-database.0 '${db.file}'" /-->
-	  	    	<!--arg value="-dbname.0 '${db.alias}'" /-->
 	  	        <arg value="-database.0" />
 	  	    	<arg value="${db.file}" />
 	  	    	<arg value="-dbname.0" />
 	  	    	<arg value="${db.alias}" />
-	  	        <!--arg value="file:${database.dir}/db" /-->
 	  	    </java>
 	  	</target>
 		

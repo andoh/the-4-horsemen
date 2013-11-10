@@ -1,14 +1,32 @@
 package ee.ut.math.tvt.salessystem.domain.data;
 
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+
+@Entity
+@Table(name = "HistoryItem")
 public class HistoryItem implements DisplayableItem {
+	
+	// Ei tea veel, mis siia tulema peaks
 	private List<SoldItem> goods;
 	
-
+	@Column(name = "date")
 	private String date;
+	
+	@Column(name = "time")
 	private String time;
+	
+	@Column(name = "sum")
 	private Double sum;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	public HistoryItem(List<SoldItem> goods, String date, String time, Double sum) {

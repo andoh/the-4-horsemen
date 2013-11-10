@@ -49,6 +49,8 @@ public interface SalesDomainController {
     
     // sets model that is used by the sales system
     public void setModel(SalesSystemModel model);
+    
+    public void endSession();
 
     
 }
