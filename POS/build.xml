@@ -5,6 +5,12 @@
 	3) Due to different setup, out-of-box solutions (e.g from Tarkvaratehnika) will not work
 	-->
 
+	<!-- Should fix an error but actually cause one before running -->
+	<!--presetdef name="javac">
+    	<javac includeantruntime="false" />
+  	</presetdef-->
+
+
 	<project name="POS" default="dist" basedir=".">
     <description>
         The Four Horsemen POS project ANT build file
@@ -70,6 +76,21 @@
 			<pathelement path="lib/log4j-1.2.17.jar"/>
   			<pathelement path="lib/jgoodies-common-1.6.0.jar"/>
   			<pathelement path="lib/jgoodies-looks-2.5.3.jar"/>
+  			<pathelement path="lib/commons-logging-1.1.1.jar"/>
+  			<pathelement path="lib/hsqldb.jar"/>
+  			<pathelement path="lib/xercesImpl.jar"/>
+  			<pathelement path="lib/xml-apis.jar"/>
+  			<pathelement path="lib/hibernate/antlr-2.7.7.jar"/>
+  			<pathelement path="lib/hibernate/dom4j-1.6.1.jar"/>
+  			<pathelement path="lib/hibernate/ehcache-core-2.4.3.jar"/>
+  			<pathelement path="lib/hibernate/hibernate-commons-annotations-4.0.1.Final.jar"/>
+  			<pathelement path="lib/hibernate/hibernate-core-4.1.7.Final.jar"/>
+  			<pathelement path="lib/hibernate/hibernate-ehchace-4.1.7.Final.jar"/>
+  			<pathelement path="lib/hibernate/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+  			<pathelement path="lib/hibernate/javassist-3.15.0-GA.jar"/>
+  			<pathelement path="lib/hibernate/jboss-logging-3.1.0.GA.jar"/>
+  			<pathelement path="lib/hibernate/jboss-transaction-api_1.1_spec-1.0.0.Final.jar"/>
+  			<pathelement path="lib/hibernate/slf4j-api-1.6.1.jar"/>
 		</classpath>
   	</javac>
   	

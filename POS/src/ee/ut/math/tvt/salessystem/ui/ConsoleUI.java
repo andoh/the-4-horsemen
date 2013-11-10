@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javax.persistence.ManyToOne;
+
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
@@ -24,8 +26,10 @@ public class ConsoleUI {
 
 	private final SalesDomainController dc;
 
+	
 	private List<StockItem> cart;
 
+	
 	private List<StockItem> warehouse;
 
 	public ConsoleUI(SalesDomainController domainController) {

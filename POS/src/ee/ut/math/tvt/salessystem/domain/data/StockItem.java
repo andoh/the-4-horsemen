@@ -118,11 +118,9 @@ public class StockItem implements Cloneable, DisplayableItem {
         }
     }
     
-    
     public Object clone() {
         StockItem item =
             new StockItem(getId(), getName(), getDescription(), getPrice(), getQuantity());
         return item;
     }
-		
 }
