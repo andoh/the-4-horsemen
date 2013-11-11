@@ -32,8 +32,9 @@ public class Intro
 		
 		final SalesDomainController domainController = new SalesDomainControllerImpl();
 
-			// if (args.length == 1 && args[0].equals(MODE)) - The condition works, but the code breaks later - DO NOT USE
-			if (false) {
+
+			if (args.length == 1 && args[0].equals(MODE)) // Using runc breaks down due to the way it displays output
+			{
 				log.debug("Mode: " + MODE);
 
 				ConsoleUI cui = new ConsoleUI(domainController);

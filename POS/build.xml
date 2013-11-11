@@ -51,14 +51,19 @@
         <pathelement location="${build.classes.dir}"/>
         <!-- configuration -->
         <pathelement location="${conf.dir}"/>
+		<pathelement location="${build}" />
         <fileset dir="${lib.dir}">
             <include name="*.jar"/>
         </fileset>
-
         <fileset dir="${lib.hibernate.dir}">
              <include name="*.jar"/>
         </fileset>
 	</path>
+		
+  <!-- Copy hibernate.cfg.xml to build folder or else the program won't work-->
+  <target name="copymetafiles">
+  	<copy file="${src}/hibernate.cfg.xml" tofile="${build}/hibernate.cfg.xml"/>
+  </target>
 	
   <target name="init">
     <!-- Create the time stamp -->
@@ -68,7 +73,7 @@
   	<!-- Update application.properties -->
   </target>
 
-  <target name="build" depends="init"
+  <target name="build" depends="init, copymetafiles"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
   	<javac srcdir="${src}" destdir="${build}">
@@ -97,26 +102,15 @@
     <!--set log4j and other files in the right places -->
   </target>
 		
-	<target name="runc" depends="build" description="Run the application (console)">
-		<java classname="ee.ut.math.tvt.thefourhorsemen.Intro" fork="yes">
-			<classpath path="${build}">
-				<pathelement path="lib/log4j-1.2.17.jar"/>
-				<pathelement path="etc"/>
-			</classpath>
+  	<target name="runc" depends="build, copymetafiles" description="Run the application (console)">
+		<java classname="ee.ut.math.tvt.thefourhorsemen.Intro" fork="yes" classpathref="run.classpath">
 			<arg value="console" />
 		</java>
 	</target>
 	
-	<target name="run" depends="build" description="run the application" >
+	<target name="run" depends="build, copymetafiles" description="run the application" >
 	    <!-- Run the Intro class -->
-		<java classname="ee.ut.math.tvt.thefourhorsemen.Intro"
-			fork="true">
-			<classpath path="${build}">
-				<pathelement path="lib/log4j-1.2.17.jar"/>
-				<pathelement path="lib/jgoodies-common-1.6.0.jar"/>
-				<pathelement path="lib/jgoodies-looks-2.5.3.jar"/>
-				<pathelement path="etc"/>
-			</classpath>
+		<java classname="ee.ut.math.tvt.thefourhorsemen.Intro" fork="true" classpathref="run.classpath" >
 			<jvmarg value="-Xdebug" />
 			<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1044" />
 		</java>
