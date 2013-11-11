@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
@@ -23,41 +26,52 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	
 	private Session session = HibernateUtil.currentSession();
     
+	private Query query;
+	
+	private Transaction ta;
+	
 	private SalesSystemModel model;
 	
 	public void setModel(SalesSystemModel model) {
 		this.model = model;
 	}
-	
-	public List<SoldItem> loadHistory(){
-		List<SoldItem> result= session.createQuery("from SoldItem").list();
-		return result;
-	}
-	
+		
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
 		// Let's assume we have checked and found out that the buyer is underaged and
 		// cannot buy chupa-chups
 		//throw new VerificationFailedException("Underaged!");
-		
 		String dateStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
 		String timeStamp = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
-		
 		Double summa = 0.0;
-		SQLQuery temp;
+		
+		
+		int nextval = 1 + (int)(session.createQuery("SELECT DISTINCT MAX(sale_id) FROM SoldItem").uniqueResult());
 		for (SoldItem si : goods){
 			
+			//get values for SQL insert
 			Long id = si.getId();
 			Integer quantity = si.getQuantity();
 			Double sum = si.getSum();
-			temp=session.createSQLQuery("insert into SoldItem (sale_id,stockitem_id,quantity,total) values (6,"+id+","+quantity+","+sum+")");
-			temp.executeUpdate();
-			session.flush();
+			
+			try {
+				ta = session.beginTransaction();
+				query = session.createSQLQuery
+						("INSERT INTO SoldItem"
+								+ " (sale_id,stockitem_id,quantity,total)"
+								+ " values (" + nextval + "," + id + "," + quantity + "," + sum + ")");
+				query.executeUpdate();
+				session.getTransaction().commit();
+				session.flush();
+			} catch (HibernateException e) {
+				// TODO Auto-generated catch block
+				ta.rollback();
+				e.printStackTrace();
+			}
+			
     		summa += si.getSum();
-    		System.out.println(si.getQuantity());
-       	}
+    	}
 		
-		session.close();
-		
+			
 	
 		HistoryItem item = new HistoryItem(goods, dateStamp, timeStamp, summa);
 		

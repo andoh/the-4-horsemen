@@ -32,11 +32,14 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	
 	@Column(name = "total")
 	private Double sum;
+	
 	@Transient
 	private String name;
+	
 	@Transient
 	private Double price;
-
+	
+	
     public Double getPrice() {
 		return stockItem.getPrice();
 	}
