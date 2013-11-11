@@ -73,9 +73,9 @@ public class ConsoleUI {
 	private void showStock(List<StockItem> stock) {
 		System.out.println("-------------------------");
 		for (StockItem si : stock) {
-			System.out.println(si.getId() + " "
-					+ si.getName() + " "
-					+ si.getPrice() + "Euro ("
+			System.out.println(si.getId() + ". "
+					+ si.getName() + " | "
+					+ si.getPrice() + "Euros | ("
 					+ si.getQuantity() + " items)");
 		}
 		if (stock.size() == 0) {
@@ -93,6 +93,7 @@ public class ConsoleUI {
 		System.out.println("a IDX NR \tAdd NR of stock item with index IDX to the cart");
 		System.out.println("p\t\tPurchase the shopping cart");
 		System.out.println("r\t\tReset the shopping cart");
+		System.out.println("q\t\tClose session");
 		System.out.println("-------------------------");
 	}
 

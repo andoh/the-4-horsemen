@@ -16,6 +16,7 @@ public class Intro
 	private static final String MODE = "console";
 
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) 
 	{
 		// Initialise the logger
@@ -31,7 +32,8 @@ public class Intro
 		
 		final SalesDomainController domainController = new SalesDomainControllerImpl();
 
-			if (args.length == 1 && args[0].equals(MODE)) {
+			// if (args.length == 1 && args[0].equals(MODE)) - The condition works, but the code breaks later - DO NOT USE
+			if (true) {
 				log.debug("Mode: " + MODE);
 
 				ConsoleUI cui = new ConsoleUI(domainController);

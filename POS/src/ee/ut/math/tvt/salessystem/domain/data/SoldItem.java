@@ -12,7 +12,7 @@ import javax.persistence.Table;
 /**
  * Already bought StockItem. SoldItem duplicates name and price for preserving history. 
  */
-@Entity
+
 @Table(name = "SoldItem")
 public class SoldItem implements Cloneable, DisplayableItem {
 
@@ -20,7 +20,7 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@Column(name = "stockitem_id")
+	
     private StockItem stockItem;
     
 	@Column(name = "name")
