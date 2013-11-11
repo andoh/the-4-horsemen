@@ -7,10 +7,11 @@ import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 
 	private long highestId = 0;
+	
 	public HistoryTableModel() {
 		super(new String[] { "Id", "Date", "Time", "Order sum"});
 	}
-
+	
 	@Override
 	protected Object getColumnValue(HistoryItem item, int columnIndex) {
 		// TODO Auto-generated method stub

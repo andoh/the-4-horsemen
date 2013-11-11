@@ -16,13 +16,13 @@ public class HistoryItem implements DisplayableItem {
 	// Ei tea veel, mis siia tulema peaks
 	private List<SoldItem> goods;
 	
-	@Column(name = "date")
+	@Column(name = "DATE")
 	private String date;
 	
-	@Column(name = "time")
+	@Column(name = "TIME")
 	private String time;
 	
-	@Column(name = "sum")
+	@Column(name = "TOTAL")
 	private Double sum;
 	
 	@Id

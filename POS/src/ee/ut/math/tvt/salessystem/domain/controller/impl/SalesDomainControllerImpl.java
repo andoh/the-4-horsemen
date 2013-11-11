@@ -40,14 +40,14 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		// Let's assume we have checked and found out that the buyer is underaged and
 		// cannot buy chupa-chups
 		//throw new VerificationFailedException("Underaged!");
-		String dateStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-		String timeStamp = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 		Double summa = 0.0;
 		
-		
 		int nextval = 1 + (int)(session.createQuery("SELECT DISTINCT MAX(sale_id) FROM SoldItem").uniqueResult());
+		
 		for (SoldItem si : goods){
 			
+			summa += si.getSum();
+	    	
 			//get values for SQL insert
 			Long id = si.getId();
 			Integer quantity = si.getQuantity();
@@ -68,21 +68,29 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 				e.printStackTrace();
 			}
 			
-    		summa += si.getSum();
     	}
 		
+		try {
+			ta = session.beginTransaction();			
+			query = session.createSQLQuery("INSERT INTO HistoryItem"
+					+ " (ID,TOTAL) VALUES (" + nextval + "," + summa + ")");
 			
+			query.executeUpdate();
+			session.getTransaction().commit();
+			session.flush();
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			ta.rollback();
+			e.printStackTrace();
+		}
 	
+		/*
 		HistoryItem item = new HistoryItem(goods, dateStamp, timeStamp, summa);
 		
 		model.getCurrentHistoryTableModel().addItem(item);
-		
+		*/
 		//String[] display = {dateStamp,timeStamp,String.valueOf(summa)};
-		
-		
-		
-		
-		
+	
 		// XXX - Save purchase
 	}
 
