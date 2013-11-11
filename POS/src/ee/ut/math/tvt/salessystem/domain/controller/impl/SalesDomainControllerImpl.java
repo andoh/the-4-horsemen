@@ -73,7 +73,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		try {
 			ta = session.beginTransaction();			
 			query = session.createSQLQuery("INSERT INTO HistoryItem"
-					+ " (ID,TOTAL) VALUES (" + nextval + "," + summa + ")");
+					+ "(ID,TOTAL) VALUES (" + nextval + "," + summa + ")");
 			
 			query.executeUpdate();
 			session.getTransaction().commit();
@@ -85,7 +85,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		}
 	
 		/*
-		HistoryItem item = new HistoryItem(goods, dateStamp, timeStamp, summa);
+		HistoryItem item = new HistoryItem(hity);
 		
 		model.getCurrentHistoryTableModel().addItem(item);
 		*/
@@ -107,10 +107,16 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		HibernateUtil.closeSession();
 	}
 	
+	public List<HistoryItem> loadHistoryTab() {
+		List<HistoryItem> result = session.createQuery("from HistoryItem").list();
+		return result;
+	}
+	
 	public List<StockItem> loadWarehouseState() {
 		List<StockItem> result = session.createQuery("from StockItem").list();
 		return result;
 		
+	
 		
 //		*** OBSOLETE ****
 //		List<StockItem> dataset = new ArrayList<StockItem>();

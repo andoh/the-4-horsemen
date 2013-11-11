@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
+import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
@@ -28,15 +29,17 @@ public class ConsoleUI {
 
 	
 	private List<StockItem> cart;
-
 	
 	private List<StockItem> warehouse;
+	
+	private List<HistoryItem> history;
 
 	public ConsoleUI(SalesDomainController domainController) {
 		this.dc = domainController;
 
 		cart = new ArrayList<StockItem>();
 		warehouse = new ArrayList<StockItem>();
+		history = new ArrayList<HistoryItem>();
 	}
 	
 	/**
@@ -46,6 +49,8 @@ public class ConsoleUI {
 		try {
 			// populate warehouse with goodies
 			populateWarehouse();
+			// populate historytab with notsogoodies
+			populateHistoryTab();
 
 			System.out.println("===========================");
 			System.out.println("=       Sales System      =");
@@ -68,6 +73,10 @@ public class ConsoleUI {
 
 	private void populateWarehouse() {
 		warehouse = dc.loadWarehouseState();
+	}
+	
+	private void populateHistoryTab(){
+		history = dc.loadHistoryTab();
 	}
 
 	private void showStock(List<StockItem> stock) {

@@ -264,6 +264,7 @@ public class PurchaseTab {
     					payment_low.setVisible(false); // in case we had this error before
     					no_payment.setVisible(true);
     				}
+    				//Inserting data, when everything is correct
     				else if (Double.parseDouble(payment.getText()) >= Double.parseDouble(sum.getText())){
     					domainController.submitCurrentPurchase(model.getCurrentPurchaseTableModel().getTableRows());
     					model.getCurrentPurchaseTableModel().clear();
@@ -278,7 +279,8 @@ public class PurchaseTab {
 					System.out.println("Valesti l2ks");
 					e1.printStackTrace();
 				}
-    		    endSale();
+    			
+    			endSale();
     		}
     	});
     	

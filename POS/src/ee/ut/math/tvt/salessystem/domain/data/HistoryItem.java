@@ -13,9 +13,10 @@ import javax.persistence.Table;
 @Table(name = "HistoryItem")
 public class HistoryItem implements DisplayableItem {
 	
-	// Ei tea veel, mis siia tulema peaks
-	private List<SoldItem> goods;
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
 	@Column(name = "DATE")
 	private String date;
 	
@@ -25,30 +26,26 @@ public class HistoryItem implements DisplayableItem {
 	@Column(name = "TOTAL")
 	private Double sum;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-
-	public HistoryItem(List<SoldItem> goods, String date, String time, Double sum) {
-		this.goods = goods;
+	
+	public HistoryItem(){
+		
+	}
+	public HistoryItem(Long id, String date, String time, Double sum) {
+		this.id = id;
 		this.date = date;
 		this.time = time;
 		this.sum = sum;
-		this.id = 0;
-	}
+		}
 	
 	public Long getId() {
 		return id;
 	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}	
 	
-	public List<SoldItem> getGoods() {
-		return goods;
-	}
-
-	public void setGoods(List<SoldItem> goods) {
-		this.goods = goods;
-	}
-
 	public String getDate() {
 		return date;
 	}
@@ -71,9 +68,5 @@ public class HistoryItem implements DisplayableItem {
 
 	public void setSum(Double sum) {
 		this.sum = sum;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 }

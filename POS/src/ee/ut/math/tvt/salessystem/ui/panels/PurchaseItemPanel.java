@@ -229,10 +229,14 @@ public class PurchaseItemPanel extends JPanel {
         		JOptionPane.showMessageDialog(null, "Insufficient goods in stock", "Input error",JOptionPane.ERROR_MESSAGE);;
         	}
         	else{
-        		si.setQuantity(totalQuantity); 
+        		//Update quantity and sum
+        		si.setQuantity(totalQuantity);
+        		si.setSum(si.getQuantity()*si.getPrice());
         	}
         	
         	model.getCurrentPurchaseTableModel().fireTableDataChanged();
+        	
+        	
         	
         }catch (Exception e) {
         	if (quantity>(model.getWarehouseTableModel().getItemById(stockItem.getId())).getQuantity()){

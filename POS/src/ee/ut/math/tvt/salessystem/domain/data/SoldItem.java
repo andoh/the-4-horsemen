@@ -75,9 +75,6 @@ public class SoldItem implements Cloneable, DisplayableItem {
         this.id = id;
     }
     
-    
-    
-    
     public Integer getQuantity() {
         return quantity;
     }
@@ -109,6 +106,11 @@ public class SoldItem implements Cloneable, DisplayableItem {
 		// TODO Auto-generated method stub
 		return this.sum;
 	}
+
+	public void setSum(Double sum) {
+		this.sum = sum;
+	}
+
 
  
 }
