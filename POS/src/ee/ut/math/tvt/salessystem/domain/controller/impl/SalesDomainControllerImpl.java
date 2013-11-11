@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
@@ -28,21 +29,36 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		this.model = model;
 	}
 	
+	public List<SoldItem> loadHistory(){
+		List<SoldItem> result= session.createQuery("from SoldItem").list();
+		return result;
+	}
+	
 	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
 		// Let's assume we have checked and found out that the buyer is underaged and
 		// cannot buy chupa-chups
 		//throw new VerificationFailedException("Underaged!");
 		
-		
-		
 		String dateStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
 		String timeStamp = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
 		
 		Double summa = 0.0;
+		SQLQuery temp;
 		for (SoldItem si : goods){
+			
+			Long id = si.getId();
+			Integer quantity = si.getQuantity();
+			Double sum = si.getSum();
+			temp=session.createSQLQuery("insert into SoldItem (sale_id,stockitem_id,quantity,total) values (6,"+id+","+quantity+","+sum+")");
+			temp.executeUpdate();
+			session.flush();
     		summa += si.getSum();
-    	}
+    		System.out.println(si.getQuantity());
+       	}
 		
+		session.close();
+		
+	
 		HistoryItem item = new HistoryItem(goods, dateStamp, timeStamp, summa);
 		
 		model.getCurrentHistoryTableModel().addItem(item);
@@ -68,7 +84,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	public void endSession() {
 		HibernateUtil.closeSession();
 	}
-
+	
 	public List<StockItem> loadWarehouseState() {
 		List<StockItem> result = session.createQuery("from StockItem").list();
 		return result;

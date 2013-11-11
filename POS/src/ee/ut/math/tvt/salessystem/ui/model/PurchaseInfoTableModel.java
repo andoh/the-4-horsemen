@@ -20,9 +20,9 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 		super(new String[] { "Id", "Name", "Price", "Quantity","Sum"});
 	}
 
-	@Override
+		@Override
 	protected Object getColumnValue(SoldItem item, int columnIndex) {
-		switch (columnIndex) {
+	switch (columnIndex) {
 		case 0:
 			return item.getId();
 		case 1:
@@ -35,7 +35,9 @@ public class PurchaseInfoTableModel extends SalesSystemTableModel<SoldItem> {
 			return item.getPrice()*item.getQuantity();
 		}
 		throw new IllegalArgumentException("Column index out of range");
+
 	}
+
 
 	@Override
 	public String toString() {
