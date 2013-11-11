@@ -162,7 +162,11 @@ public class StockTab {
 			// add product to list
 			if(toContinue) {
 				long lastId = (long) model.getWarehouseTableModel().getRowCount();
-				StockItem stockItem = new StockItem(lastId+1,name.getText(),desc.getText(),Double.parseDouble(price.getText()),Integer.parseInt(quantity.getText()));
+				StockItem stockItem = new StockItem(lastId+1 , 
+						name.getText(), 
+						desc.getText(),
+						Double.parseDouble(price.getText()),
+						Integer.parseInt(quantity.getText()));
 				model.getWarehouseTableModel().addItem(stockItem);
 				newProductWindow.dispose();
 			}		

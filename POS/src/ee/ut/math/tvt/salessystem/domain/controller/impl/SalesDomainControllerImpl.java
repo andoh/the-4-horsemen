@@ -1,8 +1,10 @@
 package ee.ut.math.tvt.salessystem.domain.controller.impl;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -40,6 +42,13 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		// Let's assume we have checked and found out that the buyer is underaged and
 		// cannot buy chupa-chups
 		//throw new VerificationFailedException("Underaged!");
+		Date stamp = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		String date = sdf.format(stamp);
+		sdf = new SimpleDateFormat("hh:mm:ss");
+		String time = sdf.format(stamp);
+		
 		Double summa = 0.0;
 		
 		int nextval = 1 + (int)(session.createQuery("SELECT DISTINCT MAX(sale_id) FROM SoldItem").uniqueResult());
@@ -70,27 +79,30 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 			
     	}
 		
+
+		String tmp = String.valueOf(nextval);
+		Long nextvalue = Long.parseLong(tmp);
+		
 		try {
 			ta = session.beginTransaction();			
-			query = session.createSQLQuery("INSERT INTO HistoryItem"
-					+ "(ID,TOTAL) VALUES (" + nextval + "," + summa + ")");
-			
+			query = session.createSQLQuery
+					("INSERT INTO HistoryItem"
+					+ " (ID,total)"
+					+ " VALUES (" + nextvalue+ "," + summa + ")");
 			query.executeUpdate();
 			session.getTransaction().commit();
+			
 			session.flush();
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
 			ta.rollback();
-			e.printStackTrace();
-		}
-	
-		/*
-		HistoryItem item = new HistoryItem(hity);
+			System.out.println(e);		}
 		
+		
+		HistoryItem item = new HistoryItem(nextvalue,date,time,summa);
 		model.getCurrentHistoryTableModel().addItem(item);
-		*/
-		//String[] display = {dateStamp,timeStamp,String.valueOf(summa)};
-	
+				
+		
 		// XXX - Save purchase
 	}
 
