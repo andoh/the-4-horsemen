@@ -73,7 +73,8 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		List<StockItem> result = session.createQuery("from StockItem").list();
 		return result;
 		
-//		OBSOLETE
+		
+//		*** OBSOLETE ****
 //		List<StockItem> dataset = new ArrayList<StockItem>();
 //
 //		StockItem chips = new StockItem(1l, "Lays chips", "Potato chips", 11.0, 5);

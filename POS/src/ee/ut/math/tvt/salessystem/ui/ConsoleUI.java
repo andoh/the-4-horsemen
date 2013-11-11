@@ -139,7 +139,7 @@ public class ConsoleUI {
 		else if (c[0].equals("a") && c.length == 3) {
 			int idx = Integer.parseInt(c[1]);
 			int amount = Integer.parseInt(c[2]);
-			StockItem item = getStockItemById(idx);
+			StockItem item =  new StockItem(getStockItemById(idx));
 			item.setQuantity(Math.min(amount, item.getQuantity()));
 			cart.add(item);
 		}

@@ -52,6 +52,14 @@ public class StockItem implements Cloneable, DisplayableItem {
         this.price = price;
         this.quantity = quantity;
     }
+    
+    public StockItem(StockItem sti) {
+    	this.id = sti.getId();
+    	this.name = sti.getName();
+    	this.description = sti.getDescription();
+    	this.price = sti.getPrice();
+    	this.quantity = sti.getQuantity();
+    }
 
     /**
      * Constructs new  <code>StockItem</code>.
