@@ -5,12 +5,14 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayDeque;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.HistoryTableModel;
@@ -29,6 +31,10 @@ public class HistoryTab {
 	private final SalesDomainController domainController;
 	
 	private HistoryTableModel historyModel;
+	
+	private JFrame historyView;
+	
+	private int k = 0;
 	
 	ArrayDeque<Object> orders = new ArrayDeque<Object>();
 	
@@ -68,8 +74,62 @@ public class HistoryTab {
 		history=new JTable(tableModel){@Override
 			public boolean isCellEditable(int arg0, int arg1){
 			return false;
-		}
+			}
 		};
+		
+		history.addMouseListener(new MouseListener()  
+		{
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				historyView.setVisible(true);
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		if(historyView != null)
+			historyView.dispose();
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
+		
+		historyView = new JFrame();
+		historyView.setTitle("Purchase contents");
+		historyView.setSize(500, 300);
+		historyView.setLocation(250, 200);
+		historyView.setLayout(new GridBagLayout());
+		
+		JTable table = new JTable(model.getCurrentHistoryViewModel());
+		JScrollPane scrollPanel = new JScrollPane(table);
+		historyView.add(scrollPanel, gbc);
+		
+		
 		panel.add(history);
 		GridBagConstraints gc = new GridBagConstraints();
 	    GridBagLayout gb = new GridBagLayout();

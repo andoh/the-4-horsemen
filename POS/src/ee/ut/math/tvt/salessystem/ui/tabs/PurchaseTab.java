@@ -199,6 +199,8 @@ public class PurchaseTab {
     		summa = summa + (Double)(model.getCurrentPurchaseTableModel().getValueAt(i, model.getCurrentPurchaseTableModel().findColumn("Sum")));
     	}
     	
+    	
+    	
     	uus.setTitle("Confirm order");
     	uus.setSize(225, 200); // Resized the window for better flow
     	uus.setLocation(750, 125); // and better positioning - Rasmus
@@ -266,7 +268,7 @@ public class PurchaseTab {
     				else if (Double.parseDouble(payment.getText()) >= Double.parseDouble(sum.getText())){
     					domainController.submitCurrentPurchase(model.getCurrentPurchaseTableModel().getTableRows());
     					model.getCurrentPurchaseTableModel().clear();
-    	  				uus.dispose();
+	    				uus.dispose();
     				}
     				else {
     					no_payment.setVisible(false); // in case we had this error before

@@ -23,6 +23,8 @@ public interface SalesDomainController {
     public List<StockItem> loadWarehouseState();
 
     public List<HistoryItem> loadHistoryTab();
+    
+    //public List<SoldItem> loadHistoryView();
 
     // business processes
     /**

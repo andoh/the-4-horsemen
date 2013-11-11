@@ -37,7 +37,6 @@ public class HistoryItem implements DisplayableItem {
 		this.sum = sum;
 		}
 	
-	
 	public Long getId() {
 		return id;
 	}
