@@ -157,6 +157,12 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		//
 		session.getTransaction().commit();
 		session.flush();
+		
+//		for (int i = 0; i < result.size(); i++)
+//		{
+//			System.out.println(result.get(i));
+//		}
+		
 		return result;
 	}
 

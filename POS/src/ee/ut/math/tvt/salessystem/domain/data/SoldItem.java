@@ -39,6 +39,9 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@Transient
 	private Double price;
 	
+	@Column(name = "datestamp")
+	private String time;
+	
 	
     public Double getPrice() {
 		return stockItem.getPrice();
@@ -94,6 +97,10 @@ public class SoldItem implements Cloneable, DisplayableItem {
     public int getSale_id() {
 		return sale_id;
 	}
+    
+    public String getTime() {
+    	return time;
+    }
 
 
 	public void setSale_id(int sale_id) {
