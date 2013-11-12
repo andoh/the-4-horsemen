@@ -94,8 +94,16 @@ public class SalesDomainControllerImpl implements SalesDomainController {
                     e.printStackTrace();
             }
         
-        model.updateHistoryAndWarehouse();
-             
+        //In console, not needed, will throw NullPointerException
+//            try {
+//              model.getCurrentHistoryTableModel().addItem(item);
+//            } catch (Exception e) {
+//              // TODO Auto-generated catch block
+//            }
+                    
+        
+        	model.updateHistoryAndWarehouse();
+        
             //String[] display = {dateStamp,timeStamp,String.valueOf(summa)};
     
             // XXX - Save purchase
@@ -128,7 +136,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		ta = session.beginTransaction();
 		@SuppressWarnings("unchecked")
 		List<SoldItem> result = session.createSQLQuery
-				("SELECT StockItem.id,SoldItem.sale_id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,SoldItem.timestamp "
+				("SELECT StockItem.id,SoldItem.sale_id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,SoldItem.datestamp "
 						+ "FROM SoldItem JOIN StockItem ON StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id="+ input).list();
 		
 //		

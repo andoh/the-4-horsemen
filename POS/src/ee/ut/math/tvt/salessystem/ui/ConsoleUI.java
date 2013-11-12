@@ -140,7 +140,13 @@ public class ConsoleUI {
 			}
 		else if (c[0].equals("r")) 
 			try {
-				dc.cancelCurrentPurchase();
+				dc.cancelCurrentPurchase(); // Since nothing is done there atm, we empty the cart here
+				for (StockItem si : cart) { // Let's see what items we have in the cart
+					String temp = String.valueOf(si.getId()); // PORNOGRAPHY
+					int inx = Integer.parseInt(temp); // WHY?!?!??! FOR THE LOVE OF GOD
+					StockItem wh_Item = getStockItemById(inx); // Find the warehouse item with that ID
+					wh_Item.setQuantity(wh_Item.getQuantity() + si.getQuantity()); // add the item back to warehouse
+				}
 				cart.clear();
 			} catch (VerificationFailedException e) {
 				log.error(e.getMessage());

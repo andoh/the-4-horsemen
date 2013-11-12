@@ -35,19 +35,21 @@ public class SalesSystemModel {
         currentPurchaseTableModel = new PurchaseInfoTableModel();
         historyView = new HistoryViewModel();
 
-        // populate stock model with data from the warehouse
         updateHistoryAndWarehouse();
+        
+        
+        // These method calls are being replaced by one and will be considered obsolete
+        // populate stock model with data from the warehouse
+        //warehouseTableModel.populateWithData(domainController.loadWarehouseState());
+        //historyModel.populateWithData(domainController.loadHistoryTab());
         //historyView.populateWithData(domainController.loadHistoryView());
-       
 
     }
     
-    public void updateHistoryAndWarehouse(){
-    	historyModel.populateWithData(domainController.loadHistoryTab());	
+    public void updateHistoryAndWarehouse() {
+    	historyModel.populateWithData(domainController.loadHistoryTab());
     	warehouseTableModel.populateWithData(domainController.loadWarehouseState());
-        
     }
-    
 
     public StockTableModel getWarehouseTableModel() {
         return warehouseTableModel;
