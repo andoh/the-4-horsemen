@@ -47,6 +47,7 @@ public class SalesSystemModel {
     }
     
     public void updateHistoryAndWarehouse() {
+    	warehouseTableModel.clear();
     	historyModel.populateWithData(domainController.loadHistoryTab());
     	warehouseTableModel.populateWithData(domainController.loadWarehouseState());
     }

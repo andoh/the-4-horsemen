@@ -7,7 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayDeque;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,12 +32,11 @@ public class HistoryTab {
 	
 	private final SalesDomainController domainController;
 	
-	private HistoryTableModel historyModel;
+	private HistoryTableModel tableModel;
+    
+	private JTable history;
 	
 	private JFrame historyView;
-	
-	private int k = 0;
-	
 	
 	public HistoryTab(SalesDomainController controller,
 		      SalesSystemModel modelIn) {
@@ -46,28 +44,12 @@ public class HistoryTab {
 		this.domainController = controller;
 	    this.model = modelIn;
 	} 	
-
-//	ArrayDeque<Object> orders = new ArrayDeque<Object>();
-//	
-//	public ArrayDeque<Object> getOrders() {
-//		return orders;
-//	}
-//
-//	public void setOrders(ArrayDeque<Object> orders) {
-//		this.orders = orders;
-//	}
-	String col[] = {"Date","Time","Sum"};
-	HistoryTableModel tableModel;
-    JTable history;
-    
-	
     // TODO - implement!
 		
 
 	public Component draw() {
-		historyModel = model.getCurrentHistoryTableModel();
+		
 		tableModel = model.getCurrentHistoryTableModel();
-		//tableModel = new DefaultTableModel(col,4)
 		
 		// TODO - Sales history tabel  
 		JPanel panel = new JPanel();
