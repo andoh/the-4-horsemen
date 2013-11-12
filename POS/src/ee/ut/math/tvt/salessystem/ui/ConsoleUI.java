@@ -133,14 +133,15 @@ public class ConsoleUI {
 			    for(StockItem stockItem : cart) {
 			        soldItems.add(new SoldItem(stockItem, stockItem.getQuantity()));
 			    }
-				dc.submitCurrentPurchase(soldItems);
-				cart.clear();
+					dc.submitCurrentPurchase(soldItems);
+					cart.clear();
 			} catch (VerificationFailedException e) {
 				log.error(e.getMessage());
 			}
 		else if (c[0].equals("r")) 
 			try {
 				dc.cancelCurrentPurchase();
+				
 				cart.clear();
 			} catch (VerificationFailedException e) {
 				log.error(e.getMessage());
@@ -148,10 +149,12 @@ public class ConsoleUI {
 		else if (c[0].equals("a") && c.length == 3) {
 			int idx = Integer.parseInt(c[1]);
 			int amount = Integer.parseInt(c[2]);
-			StockItem item =  new StockItem(getStockItemById(idx));
-			item.setQuantity(Math.min(amount, item.getQuantity()));
-			cart.add(item);
+			
+			StockItem wh_Item = getStockItemById(idx); // Point to the item in warehouse
+			wh_Item.setQuantity(wh_Item.getQuantity() - amount); // change it's amount
+			StockItem item =  new StockItem(getStockItemById(idx)); // Copy the item from warehouse
+			item.setQuantity(Math.min(amount, item.getQuantity())); // set correct value
+			cart.add(item); // add it to cart
 		}
 	}
-	
 }

@@ -24,101 +24,100 @@ import ee.ut.math.tvt.salessystem.util.HibernateUtil;
  * Implementation of the sales domain controller.
  */
 public class SalesDomainControllerImpl implements SalesDomainController {
-	
-	private Session session = HibernateUtil.currentSession();
     
-	private Query query;
-	
-	private Transaction ta;
-	
-	private SalesSystemModel model;
-	
-	public void setModel(SalesSystemModel model) {
-		this.model = model;
-	}
-		
-	public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
-		// Let's assume we have checked and found out that the buyer is underaged and
-		// cannot buy chupa-chups
-		//throw new VerificationFailedException("Underaged!");
-		Date stamp = new Date();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
-		String date = sdf.format(stamp);
-		sdf = new SimpleDateFormat("hh:mm:ss");
-		String time = sdf.format(stamp);
-		
-		Double summa = 0.0;
-		
-		int nextval = 1 + (int)(session.createQuery("SELECT DISTINCT MAX(sale_id) FROM SoldItem").uniqueResult());
-		
-		for (SoldItem si : goods){
-			
-			summa += si.getSum();
-	    	
-			//get values for SQL insert
-			Long id = si.getId();
-			Integer quantity = si.getQuantity();
-			Double sum = si.getSum();
-			
-			try {
-				ta = session.beginTransaction();
-				query = session.createSQLQuery
-						("INSERT INTO SoldItem"
-								+ " (sale_id,stockitem_id,quantity,total)"
-								+ " values (" + nextval + "," + id + "," + quantity + "," + sum + ")");
-				query.executeUpdate();
-				session.getTransaction().commit();
-				session.flush();
-			} catch (HibernateException e) {
-				// TODO Auto-generated catch block
-				ta.rollback();
-				e.printStackTrace();
-			}
-			
-    	}
-		
-		String tmp = String.valueOf(nextval);
-	    Long nextvalue = Long.parseLong(tmp);
-	    System.out.println(nextvalue);
-	     
-	    try {
-			ta = session.beginTransaction();			
-			query = session.createSQLQuery("INSERT INTO HistoryItem"
-					+ "(ID,TOTAL) VALUES (" + nextval + "," + summa + ")");
-			
-			query.executeUpdate();
-			session.getTransaction().commit();
-			session.flush();
-		} catch (HibernateException e) {
-			// TODO Auto-generated catch block
-			ta.rollback();
-			e.printStackTrace();
-		}
-	
-	    HistoryItem item = new HistoryItem(nextvalue,date,time,summa);
-		item.setId(nextvalue);
-	    model.getCurrentHistoryTableModel().addItem(item);
-	
-		
-		//String[] display = {dateStamp,timeStamp,String.valueOf(summa)};
-	
-		// XXX - Save purchase
-	}
+    private Session session = HibernateUtil.currentSession();
 
-	public void cancelCurrentPurchase() throws VerificationFailedException {				
-		// XXX - Cancel current purchase
-	}
-	
+    private Query query;
+    
+    private Transaction ta;
+    
+    private SalesSystemModel model;
+    
+    public void setModel(SalesSystemModel model) {
+            this.model = model;
+    }
+            
+    public void submitCurrentPurchase(List<SoldItem> goods) throws VerificationFailedException {
+            // Let's assume we have checked and found out that the buyer is underaged and
+            // cannot buy chupa-chups
+            //throw new VerificationFailedException("Underaged!");
+            Date stamp = new Date();
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            
+            String date = sdf.format(stamp);
+            sdf = new SimpleDateFormat("hh:mm:ss");
+            String time = sdf.format(stamp);
+            
+            Double summa = 0.0;
+            
+            int nextval = 1 + (int)(session.createQuery("SELECT DISTINCT MAX(sale_id) FROM SoldItem").uniqueResult());
+            
+            for (SoldItem si : goods){
+                    
+                    summa += si.getSum();
+                
+                    //get values for SQL insert
+                    Long id = si.getId();
+                    Integer quantity = si.getQuantity();
+                    Double sum = si.getSum();
+                    
+                    try {
+                            ta = session.beginTransaction();
+                            query = session.createSQLQuery
+                                            ("INSERT INTO SoldItem"
+                                                            + " (sale_id,stockitem_id,quantity,total)"
+                                                            + " values (" + nextval + "," + id + "," + quantity + "," + sum + ")");
+                            query.executeUpdate();
+                            session.getTransaction().commit();
+                            session.flush();
+                    } catch (HibernateException e) {
+                            // TODO Auto-generated catch block
+                            ta.rollback();
+                            e.printStackTrace();
+                    }
+                    
+        }
+            
+        String tmp = String.valueOf(nextval);
+        Long nextvalue = Long.parseLong(tmp);
+        System.out.println(nextvalue);
+         
+        try {
+                    ta = session.beginTransaction();                        
+                    query = session.createSQLQuery("INSERT INTO HistoryItem"
+                                    + "(ID,TOTAL) VALUES (" + nextval + "," + summa + ")");
+                    
+                    query.executeUpdate();
+                    session.getTransaction().commit();
+                    session.flush();
+            } catch (HibernateException e) {
+                    // TODO Auto-generated catch block
+                    ta.rollback();
+                    e.printStackTrace();
+            }
+    
+        HistoryItem item = new HistoryItem(nextvalue,date,time,summa);
+        item.setId(nextvalue);
+        model.getCurrentHistoryTableModel().addItem(item);
+            
+            //String[] display = {dateStamp,timeStamp,String.valueOf(summa)};
+    
+            // XXX - Save purchase
+    }
 
-	public void startNewPurchase() throws VerificationFailedException {
-		// XXX - Start new purchase
-	}
-	
-	public void endSession() {
-		HibernateUtil.closeSession();
-	}
+    public void cancelCurrentPurchase() throws VerificationFailedException {                                
+            // XXX - Cancel current purchase
+    }
+    
+
+    public void startNewPurchase() throws VerificationFailedException {
+            // XXX - Start new purchase
+    }
+    
+    public void endSession() {
+            HibernateUtil.closeSession();
+    }
 	
 	public List<HistoryItem> loadHistoryTab() {
 		List<HistoryItem> result = session.createQuery("from HistoryItem").list();
@@ -132,9 +131,14 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	
 	public List<SoldItem> loadHistoryView(Long input) {
 		ta = session.beginTransaction();
-		List<SoldItem> result = session.createQuery
+		@SuppressWarnings("unchecked")
+		List<SoldItem> result = session.createSQLQuery
 				("SELECT StockItem.id,SoldItem.sale_id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,SoldItem.timestamp "
-						+ "FROM SoldItem JOIN StockItem WHERE StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id=3").list();
+						+ "FROM SoldItem JOIN StockItem ON StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id="+ input).list();
+		
+//		
+//		("SELECT StockItem.id,SoldItem.sale_id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,SoldItem.timestamp "
+//				+ "FROM SoldItem JOIN StockItem WHERE StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id=3").list();
 				
 				
 				
