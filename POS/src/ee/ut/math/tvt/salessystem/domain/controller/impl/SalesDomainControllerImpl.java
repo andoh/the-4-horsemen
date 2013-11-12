@@ -51,9 +51,6 @@ public class SalesDomainControllerImpl implements SalesDomainController {
             Double summa = 0.0;
             //Sets next id for correct database insert
             int nextval = 1 + (int)(session.createQuery("SELECT DISTINCT MAX(sale_id) FROM SoldItem").uniqueResult());
-            //Hack to get nextval as Long
-            String tmp = String.valueOf(nextval);
-            Long nextvalue = Long.parseLong(tmp);
                         
             for (SoldItem si : goods){
                     
@@ -97,29 +94,8 @@ public class SalesDomainControllerImpl implements SalesDomainController {
                     e.printStackTrace();
             }
         
-        String temp_date = null;
-        String temp_time = null;
-        
-        try {
-            ta = session.beginTransaction();                        
-            temp_date = (String) session.createSQLQuery("SELECT date FROM HistoryItem WHERE id=" + nextvalue).uniqueResult();            
-            temp_time = (String) session.createSQLQuery("SELECT time FROM HistoryItem WHERE id=" + nextvalue).uniqueResult();            
-        } catch (HibernateException e) {
-            // TODO Auto-generated catch block
-            ta.rollback();
-            e.printStackTrace();
-        }
-
-        
-        HistoryItem item = new HistoryItem(nextvalue,temp_date,temp_time,summa);
-        
-        //In console, not needed, will throw NullPointerException
-        try {
-			model.getCurrentHistoryTableModel().addItem(item);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-		}
-            
+        model.updateHistoryAndWarehouse();
+             
             //String[] display = {dateStamp,timeStamp,String.valueOf(summa)};
     
             // XXX - Save purchase
