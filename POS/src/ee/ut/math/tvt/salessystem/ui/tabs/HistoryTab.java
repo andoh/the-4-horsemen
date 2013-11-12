@@ -66,7 +66,7 @@ public class HistoryTab {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Long p = Long.parseLong(String.valueOf(3));
+				Long p = Long.parseLong(String.valueOf(history.rowAtPoint(e.getPoint())));
 				
 				model.getCurrentHistoryViewModel().populateWithData(domainController.loadHistoryView(p));
 				historyView.setVisible(true);
