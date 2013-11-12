@@ -30,9 +30,9 @@ public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 	
 	
 	public void addItem(final HistoryItem item) {
-		item.setId(highestId + 1);
-		highestId += 1;
-		
+//		item.setId(highestId + 1);
+//		highestId += 1;
+//		
         rows.add(item);
 	  
         fireTableDataChanged();
