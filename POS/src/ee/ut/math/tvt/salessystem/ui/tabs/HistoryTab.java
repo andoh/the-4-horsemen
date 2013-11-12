@@ -14,9 +14,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.hibernate.Session;
+
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.HistoryTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
@@ -36,7 +39,6 @@ public class HistoryTab {
 	
 	private int k = 0;
 	
-	ArrayDeque<Object> orders = new ArrayDeque<Object>();
 	
 	public HistoryTab(SalesDomainController controller,
 		      SalesSystemModel modelIn) {
@@ -45,13 +47,15 @@ public class HistoryTab {
 	    this.model = modelIn;
 	} 	
 
-	public ArrayDeque<Object> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(ArrayDeque<Object> orders) {
-		this.orders = orders;
-	}
+//	ArrayDeque<Object> orders = new ArrayDeque<Object>();
+//	
+//	public ArrayDeque<Object> getOrders() {
+//		return orders;
+//	}
+//
+//	public void setOrders(ArrayDeque<Object> orders) {
+//		this.orders = orders;
+//	}
 	String col[] = {"Date","Time","Sum"};
 	HistoryTableModel tableModel;
     JTable history;
@@ -65,9 +69,7 @@ public class HistoryTab {
 		tableModel = model.getCurrentHistoryTableModel();
 		//tableModel = new DefaultTableModel(col,4)
 		
-		
-		
-        // TODO - Sales history tabel  
+		// TODO - Sales history tabel  
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());		
 		
@@ -82,7 +84,9 @@ public class HistoryTab {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				Long p = Long.parseLong(String.valueOf(3));
 				
+				model.getCurrentHistoryViewModel().populateWithData(domainController.loadHistoryView(p));
 				historyView.setVisible(true);
 				
 			}
@@ -142,19 +146,7 @@ public class HistoryTab {
 	    panel.setLayout(gb);
 	    panel.add(scrollPane, gc);
 	    
-		while(orders.isEmpty()==false){
-			ArrayDeque<Object> temp = getOrders();
-			Object[] temps = (Object[]) temp.pop(); // TODO: cast annab errori
-			System.out.println(temps[0]);
-			history.setValueAt(temps[0], 0, 0);
-			history.setValueAt(temps[1], 1, 0);
-			history.setValueAt(temps[2], 2, 0);
-				
-		}
-		
-		
-		
-		panel.setBackground(Color.WHITE);
+	    panel.setBackground(Color.WHITE);
 		
 		panel.updateUI();
 		return panel;

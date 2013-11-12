@@ -130,10 +130,21 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		return result;
 	}
 	
-//	public List<SoldItem> loadHistoryView() {
-//		List<SoldItem> result = session.createQuery("from SoldItem").list();
-//		return result;
-//	}
+	public List<SoldItem> loadHistoryView(Long input) {
+		ta = session.beginTransaction();
+		List<SoldItem> result = session.createQuery
+				("SELECT StockItem.id,SoldItem.sale_id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,SoldItem.timestamp "
+						+ "FROM SoldItem JOIN StockItem WHERE StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id=3").list();
+				
+				
+				
+//				("SELECT stockitem.id,solditem.sale_id,stockitem.name,stockitem.price,solditem.quantity,solditem.total,solditem.timestamp "
+//						+ "FROM PUBLIC.SOLDITEM JOIN PUBLIC.STOCKITEM id=stockitem_id where solditem.sale_id="+input).list();
+//		
+		session.getTransaction().commit();
+		session.flush();
+		return result;
+	}
 		
 //		*** OBSOLETE ****
 //		List<StockItem> dataset = new ArrayList<StockItem>();

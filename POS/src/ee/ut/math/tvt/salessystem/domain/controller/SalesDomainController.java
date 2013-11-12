@@ -24,7 +24,7 @@ public interface SalesDomainController {
 
     public List<HistoryItem> loadHistoryTab();
     
-    //public List<SoldItem> loadHistoryView();
+    public List<SoldItem> loadHistoryView(Long input);
 
     // business processes
     /**
