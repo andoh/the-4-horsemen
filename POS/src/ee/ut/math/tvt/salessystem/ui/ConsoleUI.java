@@ -130,18 +130,17 @@ public class ConsoleUI {
 		else if (c[0].equals("p"))
 			try {
 			    List<SoldItem> soldItems = new ArrayList<SoldItem>();
-			    for(StockItem stockItem : cart) {
+				for(StockItem stockItem : cart) {
 			        soldItems.add(new SoldItem(stockItem, stockItem.getQuantity()));
 			    }
-					dc.submitCurrentPurchase(soldItems);
-					cart.clear();
+			    dc.submitCurrentPurchase(soldItems);
+				cart.clear();
 			} catch (VerificationFailedException e) {
 				log.error(e.getMessage());
 			}
 		else if (c[0].equals("r")) 
 			try {
 				dc.cancelCurrentPurchase();
-				
 				cart.clear();
 			} catch (VerificationFailedException e) {
 				log.error(e.getMessage());

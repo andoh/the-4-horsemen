@@ -33,7 +33,8 @@ public class Intro
 		final SalesDomainController domainController = new SalesDomainControllerImpl();
 
 
-			if (args.length == 1 && args[0].equals(MODE)) // Using runc breaks down due to the way it displays output
+			//if (args.length == 1 && args[0].equals(MODE)) // Using runc breaks down due to the way it displays output
+			if(true)
 			{
 				log.debug("Mode: " + MODE);
 

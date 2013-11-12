@@ -42,26 +42,30 @@ public class SalesDomainControllerImpl implements SalesDomainController {
             // cannot buy chupa-chups
             //throw new VerificationFailedException("Underaged!");
             Date stamp = new Date();
-            
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            
             String date = sdf.format(stamp);
+            
             sdf = new SimpleDateFormat("hh:mm:ss");
             String time = sdf.format(stamp);
             
             Double summa = 0.0;
-            
+            //Sets next id for correct database insert
             int nextval = 1 + (int)(session.createQuery("SELECT DISTINCT MAX(sale_id) FROM SoldItem").uniqueResult());
-            
+            //Hack to get nextval as Long
+            String tmp = String.valueOf(nextval);
+            Long nextvalue = Long.parseLong(tmp);
+                        
             for (SoldItem si : goods){
                     
+            		//Sums up purchase total
                     summa += si.getSum();
                 
-                    //get values for SQL insert
+                    //Gets values for SQL insert
                     Long id = si.getId();
                     Integer quantity = si.getQuantity();
                     Double sum = si.getSum();
                     
+                    //Insert into table SoldItem values that exist
                     try {
                             ta = session.beginTransaction();
                             query = session.createSQLQuery
@@ -76,13 +80,9 @@ public class SalesDomainControllerImpl implements SalesDomainController {
                             ta.rollback();
                             e.printStackTrace();
                     }
-                    
         }
-            
-        String tmp = String.valueOf(nextval);
-        Long nextvalue = Long.parseLong(tmp);
-        System.out.println(nextvalue);
-         
+        
+        //Insert total data into HistoryItem
         try {
                     ta = session.beginTransaction();                        
                     query = session.createSQLQuery("INSERT INTO HistoryItem"
@@ -98,8 +98,13 @@ public class SalesDomainControllerImpl implements SalesDomainController {
             }
     
         HistoryItem item = new HistoryItem(nextvalue,date,time,summa);
-        item.setId(nextvalue);
-        model.getCurrentHistoryTableModel().addItem(item);
+        
+        //In console, not needed, will throw NullPointerException
+        try {
+			model.getCurrentHistoryTableModel().addItem(item);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+		}
             
             //String[] display = {dateStamp,timeStamp,String.valueOf(summa)};
     

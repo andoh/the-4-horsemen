@@ -1,8 +1,11 @@
 package ee.ut.math.tvt.salessystem.ui.model;
 
+import java.util.NoSuchElementException;
+
 import ee.ut.math.tvt.salessystem.domain.data.DisplayableItem;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 
@@ -29,13 +32,22 @@ public class HistoryTableModel extends SalesSystemTableModel<HistoryItem> {
 	}
 	
 	
-	public void addItem(final HistoryItem item) {
-//		item.setId(highestId + 1);
-//		highestId += 1;
-//		
-        rows.add(item);
-	  
-        fireTableDataChanged();
+	public void addItem(final HistoryItem historyItem) {
+			historyItem.setId(highestId + 1);
+			highestId += 1;
+			
+        
+			try {
+				rows.add(historyItem);
+//				log.debug("Found existing item " + historyItem.getName()
+//						+ " increased quantity by " + historyItem.getQuantity());
+			}
+			catch (NoSuchElementException e) {
+				System.out.println(e);
+//				log.debug("Added " + historyItem.getId()
+//						+ " total sum of " + historyItem.getSum());
+			}
+			fireTableDataChanged();
     }
 
 }
