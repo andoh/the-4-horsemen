@@ -16,6 +16,7 @@ import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.domain.data.ViewItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.util.HibernateUtil;
@@ -133,19 +134,18 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 
 	public List<StockItem> loadWarehouseState() {
 		List<StockItem> result = session.createQuery("from StockItem").list();
-		System.out.println("OLENSIIN");
 		return result;
 	}
 
-	public List<SoldItem> loadHistoryView(Long input) {
+	public List<ViewItem> loadHistoryView() {
 		ta = session.beginTransaction();
 		@SuppressWarnings("unchecked")
-		List<SoldItem> result = session
-				.createSQLQuery(
-						"SELECT StockItem.id,SoldItem.sale_id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,SoldItem.datestamp "
-								+ "FROM SoldItem JOIN StockItem ON StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id="
-								+ input).list();
-
+		List<ViewItem> result = (List<ViewItem>) session
+			.createSQLQuery(
+						"SELECT StockItem.id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,Solditem.datestamp "
+							+ "FROM SoldItem JOIN StockItem ON StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id=1"
+							).list();
+		System.out.println(result.get(0));
 		//
 		// ("SELECT StockItem.id,SoldItem.sale_id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,SoldItem.timestamp "
 		// +

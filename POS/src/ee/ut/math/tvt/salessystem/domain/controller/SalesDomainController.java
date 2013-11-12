@@ -5,6 +5,7 @@ import java.util.List;
 import ee.ut.math.tvt.salessystem.domain.data.HistoryItem;
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.domain.data.ViewItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
@@ -24,7 +25,7 @@ public interface SalesDomainController {
 
     public List<HistoryItem> loadHistoryTab();
     
-    public List<SoldItem> loadHistoryView(Long input);
+    public List<ViewItem> loadHistoryView();
 
     // business processes
     /**

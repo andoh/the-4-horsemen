@@ -17,6 +17,7 @@ import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.HistoryTableModel;
+import ee.ut.math.tvt.salessystem.ui.model.HistoryViewModel;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
@@ -34,7 +35,11 @@ public class HistoryTab {
 	
 	private HistoryTableModel tableModel;
     
+	private HistoryViewModel viewModel;
+	
 	private JTable history;
+	
+	private JTable view;
 	
 	private JFrame historyView;
 	
@@ -50,7 +55,6 @@ public class HistoryTab {
 	public Component draw() {
 		
 		tableModel = model.getCurrentHistoryTableModel();
-		
 		// TODO - Sales history tabel  
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());		
@@ -66,11 +70,29 @@ public class HistoryTab {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Long p = Long.parseLong(String.valueOf(history.rowAtPoint(e.getPoint())));
 				
-				model.getCurrentHistoryViewModel().populateWithData(domainController.loadHistoryView(p));
+				historyView = new JFrame();
+				historyView.setTitle("Purchase contents");
+				historyView.setSize(500, 300);
+				historyView.setLocation(250, 200);
+							
+				Long p = Long.parseLong(String.valueOf(history.rowAtPoint(e.getPoint())));	
+				//model.getCurrentHistoryViewModel().populateWithData(domainController.loadHistoryView());
+				
+//				JTable table = new JTable(model.getCurrentHistoryViewModel());
+				viewModel = model.getCurrentHistoryViewModel();
+				viewModel.populateWithData(domainController.loadHistoryView());
+				
+				historyView.setLayout(new FlowLayout());		
+				
+				view=new JTable(viewModel){@Override
+					public boolean isCellEditable(int arg0, int arg1){
+					return false;
+					}
+				};
+				
+				historyView.add(view);
 				historyView.setVisible(true);
-				
 			}
 
 			@Override
@@ -105,15 +127,13 @@ public class HistoryTab {
 		gbc.weightx = 1.0;
 		gbc.weighty = 1.0;
 		
-		historyView = new JFrame();
-		historyView.setTitle("Purchase contents");
-		historyView.setSize(500, 300);
-		historyView.setLocation(250, 200);
-		historyView.setLayout(new GridBagLayout());
 		
-		JTable table = new JTable(model.getCurrentHistoryViewModel());
-		JScrollPane scrollPanel = new JScrollPane(table);
-		historyView.add(scrollPanel, gbc);
+		
+		
+//		historyView.setLayout(new GridBagLayout());
+		
+
+		
 		
 		
 		panel.add(history);

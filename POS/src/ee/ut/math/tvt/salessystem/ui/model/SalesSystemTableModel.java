@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import javax.swing.table.AbstractTableModel;
 
 import ee.ut.math.tvt.salessystem.domain.data.DisplayableItem;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 
 /**
  * Generic table model implementation suitable for extending.
@@ -72,6 +73,11 @@ public abstract class SalesSystemTableModel<T extends DisplayableItem> extends
         rows.clear();
         rows.addAll(data);
     }
+
+	protected Object getColumnValue(SoldItem item, int columnIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
     
 }

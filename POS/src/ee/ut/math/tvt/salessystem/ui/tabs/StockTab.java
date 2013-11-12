@@ -40,8 +40,8 @@ public class StockTab {
 	private SalesSystemModel model;
 
 	// private final SalesDomainController domainController;
-
 	private StockTableModel tableModel;
+
 	private JTable warehouse;
 
 	public StockTab(SalesSystemModel model) {
@@ -50,7 +50,9 @@ public class StockTab {
 
 	// warehouse stock tab - consists of a menu and a table
 	public Component draw() {
+		
 		tableModel = model.getWarehouseTableModel();
+		
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
@@ -76,25 +78,12 @@ public class StockTab {
 		panel.add(scrollPane, gc);
 
 		panel.setBackground(Color.WHITE);
-
+		
+		panel.add(drawStockMenuPane());
 		panel.updateUI();
 
-		//
-		// JPanel panel = new JPanel();
-		// panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		//
-		// GridBagLayout gb = new GridBagLayout();
-		// GridBagConstraints gc = new GridBagConstraints();
-		// panel.setLayout(gb);
-		//
-		// gc.fill = GridBagConstraints.HORIZONTAL;
-		// gc.anchor = GridBagConstraints.NORTH;
-		// gc.gridwidth = GridBagConstraints.REMAINDER;
-		// gc.weightx = 1.0d;
-		// gc.weighty = 0d;
-		//
-		// panel.add(drawStockMenuPane(), gc);
-		//
+		
+		
 		// gc.weighty = 1.0;
 		// gc.fill = GridBagConstraints.BOTH;
 		// panel.add(drawStockMainPane(), gc);

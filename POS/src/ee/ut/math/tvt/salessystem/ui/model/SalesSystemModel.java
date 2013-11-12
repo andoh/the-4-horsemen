@@ -35,7 +35,8 @@ public class SalesSystemModel {
         currentPurchaseTableModel = new PurchaseInfoTableModel();
         historyView = new HistoryViewModel();
 
-        updateHistoryAndWarehouse();
+        updateHistoryTab();
+        updateWareHouse();
         
         
         // These method calls are being replaced by one and will be considered obsolete
@@ -46,9 +47,10 @@ public class SalesSystemModel {
 
     }
     
-    public void updateHistoryAndWarehouse() {
-    	warehouseTableModel.clear();
+    public void updateHistoryTab() {
     	historyModel.populateWithData(domainController.loadHistoryTab());
+    }
+    public void updateWareHouse(){
     	warehouseTableModel.populateWithData(domainController.loadWarehouseState());
     }
 
