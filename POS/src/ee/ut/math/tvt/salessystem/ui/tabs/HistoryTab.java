@@ -43,6 +43,8 @@ public class HistoryTab {
 	
 	private JFrame historyView;
 	
+	private JPanel historyViewPanel;
+	
 	public HistoryTab(SalesDomainController controller,
 		      SalesSystemModel modelIn) {
 		
@@ -75,13 +77,29 @@ public class HistoryTab {
 				historyView.setTitle("Purchase contents");
 				historyView.setSize(500, 300);
 				historyView.setLocation(250, 200);
-							
+				historyViewPanel=new JPanel();
+				GridBagConstraints gc = new GridBagConstraints();
+				GridBagLayout gb = new GridBagLayout();
+				gc.fill = GridBagConstraints.BOTH;
+				gc.weightx = 1.0;
+				gc.weighty = 1.0;
+				JScrollPane scrollpane= new JScrollPane();
 				Long p = Long.parseLong(String.valueOf(history.rowAtPoint(e.getPoint())));	
 				//model.getCurrentHistoryViewModel().populateWithData(domainController.loadHistoryView());
 				
 //				JTable table = new JTable(model.getCurrentHistoryViewModel());
+				historyView.add(historyViewPanel);
+				historyViewPanel.setLayout(gb);
+				historyViewPanel.add(scrollpane,gc);
+				historyViewPanel.setVisible(true);
+				
 				viewModel = model.getCurrentHistoryViewModel();
-				viewModel.populateWithData(domainController.loadHistoryView());
+				try {
+					viewModel.populateWithData(domainController.loadHistoryView());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				historyView.setLayout(new FlowLayout());		
 				
@@ -91,7 +109,7 @@ public class HistoryTab {
 					}
 				};
 				
-				historyView.add(view);
+				historyViewPanel.add(view);
 				historyView.setVisible(true);
 			}
 

@@ -6,6 +6,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -28,6 +35,13 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 
 	private Session session = HibernateUtil.currentSession();
 
+	private static Connection getHSQLConnection() throws Exception {
+	    Class.forName("org.hsqldb.jdbcDriver");
+	    System.out.println("Driver Loaded.");
+	    String url = "jdbc:hsqldb:hsql://localhost/POS";
+	    return DriverManager.getConnection(url, "sa", "");
+	  }
+	
 	private Query query;
 
 	private Transaction ta;
@@ -137,8 +151,35 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		return result;
 	}
 
-	public List<ViewItem> loadHistoryView() {
-		ta = session.beginTransaction();
+	public List<ViewItem> loadHistoryView() throws Exception {
+		Connection conn = getHSQLConnection();
+		System.out.println("ühendatud");
+		Statement st= conn.createStatement();
+		
+		//ResultSet rs = st.executeQuery("SELECT StockItem.id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,Solditem.datestamp "
+		//					+ "FROM SoldItem JOIN StockItem ON StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id=1");
+		ResultSet rs = st.executeQuery("select * from StockItem");
+		System.out.println(rs);
+		ResultSetMetaData rsmeta=rs.getMetaData();
+		
+		int numberofColumns = rsmeta.getColumnCount();
+		System.out.println("veerge on: "+numberofColumns);
+		while(rs.next())
+		{
+			System.out.println(rs.getObject("NAME"));
+		}
+		/*for(int i=1;i<=numberofColumns;i++){
+			System.out.println("ridade metadata");
+			System.out.println("rea number "+i);
+			
+			//System.out.println(rsmeta.getColumn(i));
+		}*/
+		st.close();
+		conn.close();
+		
+		/*
+		 * ta = session.beginTransaction();
+		 */
 		@SuppressWarnings("unchecked")
 		List<ViewItem> result = (List<ViewItem>) session
 			.createSQLQuery(
