@@ -157,8 +157,10 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		
 		//ResultSet rs = st.executeQuery("SELECT StockItem.id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,Solditem.datestamp "
 		//					+ "FROM SoldItem JOIN StockItem ON StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id=1");
-		ResultSet rs = st.executeQuery("select * from StockItem");
+		ResultSet rs = st.executeQuery("SELECT StockItem.id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,Solditem.datestamp "
+									+ "FROM SoldItem JOIN StockItem ON StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id="+p);
 		
+		List<ViewItem> result = new ArrayList<ViewItem>();
 		
 		//System.out.println(rs);
 		//ResultSetMetaData rsmeta = rs.getMetaData();
@@ -167,7 +169,12 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 //		System.out.println("veerge on: "+numberofColumns);
 		while(rs.next())
 		{
+			System.out.println(rs.getObject("ID"));
 			System.out.println(rs.getObject("NAME"));
+			System.out.println(rs.getObject("PRICE"));
+			System.out.println(rs.getObject("QUANTITY"));
+			System.out.println(rs.getObject("TOTAL"));
+			System.out.println(rs.getObject("DATESTAMP"));
 		}
 		/*for(int i=1;i<=numberofColumns;i++){
 			System.out.println("ridade metadata");
@@ -181,13 +188,14 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		/*
 		 * ta = session.beginTransaction();
 		 */
-		@SuppressWarnings("unchecked")
-		List<ViewItem> result = (List<ViewItem>) session
+		//@SuppressWarnings("unchecked")
+		/*List<ViewItem> result = (List<ViewItem>) session
 			.createSQLQuery(
 						"SELECT StockItem.id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,Solditem.datestamp "
 							+ "FROM SoldItem JOIN StockItem ON StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id=1"
 							).list();
 		System.out.println(result.get(0));
+		*/
 		//
 		// ("SELECT StockItem.id,SoldItem.sale_id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,SoldItem.timestamp "
 		// +
