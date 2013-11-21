@@ -1,10 +1,12 @@
 package ee.ut.math.tvt.salessystem.domain.controller.impl;
 
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.math.BigDecimal;
 
 
 import java.sql.Connection;
@@ -167,15 +169,38 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		
 //		int numberofColumns = rsmeta.getColumnCount();
 //		System.out.println("veerge on: "+numberofColumns);
+		ViewItem temp;
+		List<ViewItem> tempList = new ArrayList<ViewItem>();
 		while(rs.next())
 		{
-			System.out.println(rs.getObject("ID"));
-			System.out.println(rs.getObject("NAME"));
-			System.out.println(rs.getObject("PRICE"));
-			System.out.println(rs.getObject("QUANTITY"));
-			System.out.println(rs.getObject("TOTAL"));
-			System.out.println(rs.getObject("DATESTAMP"));
+			//temp=new ViewItem((rs.getObject("ID")),(rs.getObject("NAME")),(rs.getObject("PRICE")),(rs.getObject("QUANTITY")),(rs.getObject("TOTAL")),(rs.getObject("DATESTAMP")));
+			Integer newIdT = (Integer) (rs.getObject("ID"));
+			String ss = String.valueOf(newIdT);
+			Long newId = Long.parseLong(ss);
+			
+						
+			String newName = (String) (rs.getObject("NAME"));
+			BigDecimal newPrice = (BigDecimal) (rs.getObject("PRICE"));
+								
+			Integer newQuantity = (Integer) (rs.getObject("QUANTITY"));
+			BigDecimal newTotal = (BigDecimal) (rs.getObject("TOTAL"));
+			String newDateStamp = String.valueOf(rs.getObject("DATESTAMP"));		
+			
+			temp = new ViewItem(newId,newName,newPrice,newQuantity,newTotal,newDateStamp);
+			tempList.add(temp);
+			
+//			System.out.println(rs.getObject("ID"));
+//			System.out.println(rs.getObject("NAME"));
+//			System.out.println(rs.getObject("PRICE"));
+//			System.out.println(rs.getObject("QUANTITY"));
+//			System.out.println(rs.getObject("TOTAL"));
+//			System.out.println(rs.getObject("DATESTAMP"));
 		}
+		
+		for (int i = 0; i<tempList.size();i++){
+			System.out.println(tempList.get(i).toString());
+		}
+		
 		/*for(int i=1;i<=numberofColumns;i++){
 			System.out.println("ridade metadata");
 			System.out.println("rea number "+i);

@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
+import java.math.BigDecimal;
 
 
 /**
@@ -25,19 +25,19 @@ public class ViewItem implements Cloneable, DisplayableItem {
 	private String name;
 	
 	@Column(name = "price")
-	private Double price;
+	private BigDecimal price;
 	
 	@Column(name = "quantity")
     private Integer quantity;
 	
 	@Column(name = "total")
-    private Double total;
+    private BigDecimal total;
 	
-	public Double getTotal() {
+	public BigDecimal getTotal() {
 		return total;
 	}
 
-	public void setTotal(Double total) {
+	public void setTotal(BigDecimal total) {
 		this.total = total;
 	}
 
@@ -60,7 +60,7 @@ public class ViewItem implements Cloneable, DisplayableItem {
 		return stockItem.getPrice();
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
@@ -72,8 +72,15 @@ public class ViewItem implements Cloneable, DisplayableItem {
 	{}
 
 	
-    public ViewItem(Long id, String name, Double price, Integer quantity,
-			Double total, String time) {
+    @Override
+	public String toString() {
+		return "ViewItem [id=" + id + ", name=" + name + ", price=" + price
+				+ ", quantity=" + quantity + ", total=" + total + ", time="
+				+ time + "]";
+	}
+
+	public ViewItem(Long id, String name, BigDecimal price, Integer quantity,
+			BigDecimal total, String time) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
