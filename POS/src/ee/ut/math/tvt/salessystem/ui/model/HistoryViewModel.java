@@ -29,26 +29,26 @@ public class HistoryViewModel extends SalesSystemTableModel<ViewItem>{
 		return null;
 	}
 	
-	public String toString() {
-		final StringBuffer buffer = new StringBuffer();
-
-		for (int i = 0; i < headers.length; i++)
-			buffer.append(headers[i] + "\t");
-		buffer.append("\n");
-
-		for (final ViewItem item : rows) {
-			
-			buffer.append(item.getId() + "\t");
-			buffer.append(item.getName() + "\t");
-			buffer.append(item.getPrice() + "\t");
-			buffer.append(item.getQuantity() + "\t");
-			buffer.append(item.getTotal() + "\t");
-			buffer.append(item.getTime() + "\t");
-			buffer.append("\n");
-		}
-
-		return buffer.toString();
-	}
+//	public String toString() {
+//		final StringBuffer buffer = new StringBuffer();
+//
+//		for (int i = 0; i < headers.length; i++)
+//			buffer.append(headers[i] + "\t");
+//		buffer.append("\n");
+//
+//		for (final ViewItem item : rows) {
+//			
+//			buffer.append(item.getId() + "\t");
+//			buffer.append(item.getName() + "\t");
+//			buffer.append(item.getPrice() + "\t");
+//			buffer.append(item.getQuantity() + "\t");
+//			buffer.append(item.getTotal() + "\t");
+//			buffer.append(item.getTime() + "\t");
+//			buffer.append("\n");
+//		}
+//
+//		return buffer.toString();
+//	}
 
 		
 }

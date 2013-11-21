@@ -56,16 +56,24 @@ public class ViewItem implements Cloneable, DisplayableItem {
 	@Transient
 	private StockItem stockItem;
     
-	public Double getPrice() {
-		return stockItem.getPrice();
+//	public Double getPrice() {
+//		return stockItem.getPrice();
+//	}
+	
+	public BigDecimal getPrice() {
+		return price;
 	}
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
+//	public String getName() {
+//		return stockItem.getName();
+//	}
+	
 	public String getName() {
-		return stockItem.getName();
+		return name;
 	}
 
 	public ViewItem()
@@ -106,13 +114,14 @@ public class ViewItem implements Cloneable, DisplayableItem {
     }
 
     
-    public StockItem getStockItem() {
-        return stockItem;
-    }
+//    public StockItem getStockItem() {
+//        return stockItem;
+//    }
+    
 
-    public void setStockItem(StockItem stockItem) {
-        this.stockItem = stockItem;
-    }
+//    public void setStockItem(StockItem stockItem) {
+//        this.stockItem = stockItem;
+//    }
     
     
     public String getTime() {

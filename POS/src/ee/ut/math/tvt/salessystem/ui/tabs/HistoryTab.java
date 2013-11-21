@@ -71,7 +71,15 @@ public class HistoryTab {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
+				Long p = Long.parseLong(String.valueOf(history.rowAtPoint(e.getPoint())));	
+				
 				viewModel = model.getCurrentHistoryViewModel();
+
+				try {
+					viewModel.populateWithData(domainController.loadHistoryView(p));
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 				
 				historyView = new JFrame();
 				historyView.setTitle("Purchase contents");
@@ -90,14 +98,8 @@ public class HistoryTab {
 				gc.fill = GridBagConstraints.BOTH;
 				gc.weightx = 1.0;
 				gc.weighty = 1.0;
-				Long p = Long.parseLong(String.valueOf(history.rowAtPoint(e.getPoint())));	
 				
-				try {
-					viewModel.populateWithData(domainController.loadHistoryView(p));
-				} catch (Exception e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
+
 				
 				historyViewPanel.setLayout(gb);
 				historyViewPanel.add(scrollpane, gc);

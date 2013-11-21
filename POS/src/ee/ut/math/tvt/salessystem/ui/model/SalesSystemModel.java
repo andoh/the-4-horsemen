@@ -39,6 +39,7 @@ public class SalesSystemModel {
         updateWareHouse();
         
         
+        
         // These method calls are being replaced by one and will be considered obsolete
         // populate stock model with data from the warehouse
         //warehouseTableModel.populateWithData(domainController.loadWarehouseState());
@@ -53,6 +54,10 @@ public class SalesSystemModel {
     public void updateWareHouse(){
     	warehouseTableModel.populateWithData(domainController.loadWarehouseState());
     }
+//    public void updateHistoryView(){
+//    	historyView.populateWithData(domainController.loadWarehouseState());
+//    }
+//    
 
     public StockTableModel getWarehouseTableModel() {
         return warehouseTableModel;
@@ -67,6 +72,7 @@ public class SalesSystemModel {
     }
     
     public HistoryViewModel getCurrentHistoryViewModel() {
+    	//return historyView.populateWithData(domainController.loadHistoryView(p));
     	return historyView;
     }
     

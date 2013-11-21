@@ -7,8 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.math.BigDecimal;
-
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -152,7 +150,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		return result;
 	}
 
-	public List<ViewItem> loadHistoryView(Long p) throws Exception {
+	public List<ViewItem> loadHistoryView(Long p) throws Exception  {
 		Connection conn = getHSQLConnection();
 		System.out.println("ühendatud");
 		Statement st= conn.createStatement();
@@ -198,7 +196,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		}
 		
 		for (int i = 0; i<tempList.size();i++){
-			System.out.println(tempList.get(i).toString());
+			System.out.println(tempList.get(i));
 		}
 		
 		/*for(int i=1;i<=numberofColumns;i++){
@@ -230,15 +228,16 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		// +
 		// "FROM PUBLIC.SOLDITEM JOIN PUBLIC.STOCKITEM id=stockitem_id where solditem.sale_id="+input).list();
 		//
-		session.getTransaction().commit();
-		session.flush();
+		
+		//session.getTransaction().commit();
+		//session.flush();
 		
 //		for (int i = 0; i < result.size(); i++)
 //		{
 //			System.out.println(result.get(i));
 //		}
 		
-		return result;
+		return tempList;
 	}
 
 	// *** OBSOLETE ****
