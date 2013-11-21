@@ -43,8 +43,6 @@ public class HistoryTab {
 	
 	private JFrame historyView;
 	
-	private JPanel historyViewPanel;
-	
 	public HistoryTab(SalesDomainController controller,
 		      SalesSystemModel modelIn) {
 		
@@ -73,43 +71,48 @@ public class HistoryTab {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
+				viewModel = model.getCurrentHistoryViewModel();
+				
 				historyView = new JFrame();
 				historyView.setTitle("Purchase contents");
 				historyView.setSize(500, 300);
 				historyView.setLocation(250, 200);
-				historyViewPanel=new JPanel();
+				
+				JPanel historyViewPanel = new JPanel();
+				
+				JTable HiView = new JTable(viewModel);
+				
+				JScrollPane scrollpane= new JScrollPane(HiView);
+				
+			
 				GridBagConstraints gc = new GridBagConstraints();
 				GridBagLayout gb = new GridBagLayout();
 				gc.fill = GridBagConstraints.BOTH;
 				gc.weightx = 1.0;
 				gc.weighty = 1.0;
-				JScrollPane scrollpane= new JScrollPane();
 				Long p = Long.parseLong(String.valueOf(history.rowAtPoint(e.getPoint())));	
-				//model.getCurrentHistoryViewModel().populateWithData(domainController.loadHistoryView());
 				
-//				JTable table = new JTable(model.getCurrentHistoryViewModel());
-				historyView.add(historyViewPanel);
-				historyViewPanel.setLayout(gb);
-				historyViewPanel.add(scrollpane,gc);
-				historyViewPanel.setVisible(true);
-				
-				viewModel = model.getCurrentHistoryViewModel();
 				try {
-					viewModel.populateWithData(domainController.loadHistoryView());
-				} catch (Exception e1) {
+					viewModel.populateWithData(domainController.loadHistoryView(p));
+				} catch (Exception e2) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					e2.printStackTrace();
 				}
 				
-				historyView.setLayout(new FlowLayout());		
+				historyViewPanel.setLayout(gb);
+				historyViewPanel.add(scrollpane, gc);
 				
-				view=new JTable(viewModel){@Override
-					public boolean isCellEditable(int arg0, int arg1){
-					return false;
-					}
-				};
+//				view = new JTable(viewModel)
+//				{@Override
+//					public boolean isCellEditable(int arg0, int arg1)
+//					{
+//						return false;
+//					}
+//				}; 
+//				historyViewPanel.add(view); // === Ando sitt
 				
-				historyViewPanel.add(view);
+
+				historyView.add(historyViewPanel);
 				historyView.setVisible(true);
 			}
 

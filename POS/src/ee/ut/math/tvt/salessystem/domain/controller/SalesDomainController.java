@@ -25,7 +25,7 @@ public interface SalesDomainController {
 
     public List<HistoryItem> loadHistoryTab();
     
-    public List<ViewItem> loadHistoryView() throws Exception;
+    public List<ViewItem> loadHistoryView(Long p) throws Exception;
 
     // business processes
     /**

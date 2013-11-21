@@ -141,8 +141,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 	}
 
 	public List<HistoryItem> loadHistoryTab() {
-		List<HistoryItem> result = session.createQuery("from HistoryItem")
-				.list();
+		List<HistoryItem> result = session.createQuery("from HistoryItem").list();
 		return result;
 	}
 
@@ -151,7 +150,7 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		return result;
 	}
 
-	public List<ViewItem> loadHistoryView() throws Exception {
+	public List<ViewItem> loadHistoryView(Long p) throws Exception {
 		Connection conn = getHSQLConnection();
 		System.out.println("ühendatud");
 		Statement st= conn.createStatement();
@@ -159,11 +158,13 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		//ResultSet rs = st.executeQuery("SELECT StockItem.id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,Solditem.datestamp "
 		//					+ "FROM SoldItem JOIN StockItem ON StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id=1");
 		ResultSet rs = st.executeQuery("select * from StockItem");
-		System.out.println(rs);
-		ResultSetMetaData rsmeta=rs.getMetaData();
 		
-		int numberofColumns = rsmeta.getColumnCount();
-		System.out.println("veerge on: "+numberofColumns);
+		
+		//System.out.println(rs);
+		//ResultSetMetaData rsmeta = rs.getMetaData();
+		
+//		int numberofColumns = rsmeta.getColumnCount();
+//		System.out.println("veerge on: "+numberofColumns);
 		while(rs.next())
 		{
 			System.out.println(rs.getObject("NAME"));
