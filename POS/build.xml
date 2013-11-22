@@ -5,7 +5,7 @@
 	3) Due to different setup, out-of-box solutions (e.g from Tarkvaratehnika) will not work
 	-->
 
-	<!-- Should fix an error but actually cause one before running -->
+	<!-- Should fix an error but actually causes one before running -->
 	<!--presetdef name="javac">
     	<javac includeantruntime="false" />
   	</presetdef-->
@@ -19,7 +19,10 @@
   <property name="src" location="src"/>
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
-  <property name="lib.dir" value="lib" />
+  <property name="lib.dir" location="lib" />
+  <property name="test.dir" location="test" />
+  <property name="build.test" location="${build}/test" />
+
 		
   <!-- database global properties -->
   <property name="data.dir"	value="${basedir}/data"/>
@@ -28,36 +31,29 @@
   <property name="db.url" 	value="jdbc:hsqldb:hsql://localhost/POS"/>
   <property name="lib.hibernate.dir"   value="${lib.dir}/hibernate"/>
 		
-    <!-- Classpath declaration. >
-    <path id="lib.class.path">
-        <fileset dir="${lib.dir}">
-            <include name="**/*.jar" />
-        </fileset>
-    </path-->
-	
 	<!-- Compilation classpath -->
 	<path id="compile.classpath">
         <fileset dir="${lib.dir}">
-            <include name="*.jar"/>
-        </fileset>
-		<!-- These lines seem to be very important -->
-        <fileset dir="${lib.hibernate.dir}">
-             <include name="*.jar"/>
+            <include name="**/*.jar"/>
         </fileset>
 	 </path>
 	
 	<!-- An attempt for database classpath declarations - seems to work for now -->
 	<path id="run.classpath">
-        <pathelement location="${build.classes.dir}"/>
         <!-- configuration -->
         <pathelement location="${conf.dir}"/>
 		<pathelement location="${build}" />
         <fileset dir="${lib.dir}">
-            <include name="*.jar"/>
+            <include name="**/*.jar"/>
         </fileset>
-        <fileset dir="${lib.hibernate.dir}">
-             <include name="*.jar"/>
-        </fileset>
+	</path>
+		
+	<path id="test-classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<pathelement path="${build}"/>
+		<pathelement path="${build.test}"/>
 	</path>
 		
   <!-- Copy hibernate.cfg.xml to build folder or else the program won't work-->
@@ -72,35 +68,31 @@
     <mkdir dir="${build}"/>
   	<!-- Update application.properties -->
   </target>
+		
+  <target name="init-test">
+  	<!-- Create the time stamp -->
+  	<tstamp/>
+    <!-- Create the build directory structure used by compile -->
+  	<mkdir dir="${build}"/>
+  	<mkdir dir="${build.test}"/>
+	<!-- Update application.properties -->
+  </target>
 
   <target name="build" depends="init, copymetafiles"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-  	<javac srcdir="${src}" destdir="${build}">
-  		<classpath path="${build}">
-			<pathelement path="lib/log4j-1.2.17.jar"/>
-  			<pathelement path="lib/jgoodies-common-1.6.0.jar"/>
-  			<pathelement path="lib/jgoodies-looks-2.5.3.jar"/>
-  			<pathelement path="lib/commons-logging-1.1.1.jar"/>
-  			<pathelement path="lib/hsqldb.jar"/>
-  			<pathelement path="lib/xercesImpl.jar"/>
-  			<pathelement path="lib/xml-apis.jar"/>
-  			<pathelement path="lib/hibernate/antlr-2.7.7.jar"/>
-  			<pathelement path="lib/hibernate/dom4j-1.6.1.jar"/>
-  			<pathelement path="lib/hibernate/ehcache-core-2.4.3.jar"/>
-  			<pathelement path="lib/hibernate/hibernate-commons-annotations-4.0.1.Final.jar"/>
-  			<pathelement path="lib/hibernate/hibernate-core-4.1.7.Final.jar"/>
-  			<pathelement path="lib/hibernate/hibernate-ehchace-4.1.7.Final.jar"/>
-  			<pathelement path="lib/hibernate/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
-  			<pathelement path="lib/hibernate/javassist-3.15.0-GA.jar"/>
-  			<pathelement path="lib/hibernate/jboss-logging-3.1.0.GA.jar"/>
-  			<pathelement path="lib/hibernate/jboss-transaction-api_1.1_spec-1.0.0.Final.jar"/>
-  			<pathelement path="lib/hibernate/slf4j-api-1.6.1.jar"/>
-  			<pathelement path="lib/junit-4.10.jar"/>
-		</classpath>
+  	<javac srcdir="${src}" destdir="${build}" classpathref="compile.classpath">
+  		<!--classpath path="${build}"/-->
   	</javac>
-  	
     <!--set log4j and other files in the right places -->
+  </target>
+		
+  <target name="build-tests" depends="init-test, build" description="compile the source for test" >
+	<!-- Compile the java code from ${src} into ${build} -->
+  	<javac srcdir="${test.dir}" destdir="${build.test}" classpathref="compile.classpath">
+		<!--classpath path="${build}"/-->
+	</javac>
+	<!--set log4j and other files in the right places -->
   </target>
 		
   	<target name="runc" depends="build, copymetafiles" description="Run the application (console)">
@@ -116,6 +108,17 @@
 			<jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1044" />
 		</java>
 	  </target>
+		
+	<target name="test" depends="build-tests, copymetafiles" description="run tests" >
+		<junit>
+			<classpath refid="test-classpath"/>
+			<formatter type="brief" usefile="false" />
+			<batchtest>
+				<fileset dir="${build.test}" includes="**/*.class" />
+			</batchtest>
+		</junit>
+	</target>	
+	
 	
 	<target name="jrun" depends="build">
 		<java jar="${build}/jar/thefourhorsemen.jar"

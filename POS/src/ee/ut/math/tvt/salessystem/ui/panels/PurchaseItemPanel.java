@@ -114,7 +114,6 @@ public class PurchaseItemPanel extends JPanel {
         //Fill dialog when Action performed.
         nameField.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent e){
-        		refreshItems();
         		fillDialogFields();
         	}
         });
