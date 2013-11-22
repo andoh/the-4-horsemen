@@ -7,6 +7,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.ArrayDeque;
 
 import javax.swing.BorderFactory;
@@ -26,6 +29,12 @@ import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
 
 public class StockTab {
+	private static Connection getHSQLConnection() throws Exception {
+	    Class.forName("org.hsqldb.jdbcDriver");
+	    System.out.println("Driver Loaded.");
+	    String url = "jdbc:hsqldb:hsql://localhost/POS";
+	    return DriverManager.getConnection(url, "sa", "");
+	  }
 
 	private JButton addItem;
 
@@ -190,6 +199,29 @@ public class StockTab {
 				if (toContinue) {
 					long lastId = (long) model.getWarehouseTableModel()
 							.getRowCount();
+					long andmebaasiId = lastId+1;
+					Connection conn;
+					
+						try {
+							conn = getHSQLConnection();
+						
+					
+					System.out.println("ühendatud");
+					Statement st= conn.createStatement();
+					
+					st.executeUpdate("insert into StockItem(id,name,price,quantity,description) values("+andmebaasiId+",'"+name.getText()+"','"+Double
+							.parseDouble(price.getText())+"','"+Integer
+							.parseInt(quantity.getText())+"','"+desc.getText()+"')");
+					st.close();
+					conn.close();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							System.out.println("jõudis siia");
+						}
+					
+					
+					
+					
 					StockItem stockItem = new StockItem(lastId + 1, name
 							.getText(), desc.getText(), Double
 							.parseDouble(price.getText()), Integer
