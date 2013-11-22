@@ -51,6 +51,8 @@ public class StockTab {
   
   private JTable warehouse;
   
+  private PurchaseItemPanel ref;
+  
   public StockTab(SalesSystemModel model) {
     this.model = model;
   }
@@ -210,6 +212,8 @@ public class StockTab {
                                 model.getWarehouseTableModel().addItem(stockItem);
                                 newProductWindow.dispose();
                         } 
+                        //ref = new PurchaseItemPanel(model);
+                        //ref.refreshItems(); // List gets updated, but new items are not shown
                 }
                 
                 

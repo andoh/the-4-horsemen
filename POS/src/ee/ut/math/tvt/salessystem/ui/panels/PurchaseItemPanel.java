@@ -47,6 +47,8 @@ public class PurchaseItemPanel extends JPanel {
 
     // Warehouse model
     private SalesSystemModel model;
+    
+    SalesDomainControllerImpl sdc = new SalesDomainControllerImpl();
 
     /**
      * Constructs new purchase item panel.
@@ -82,6 +84,16 @@ public class PurchaseItemPanel extends JPanel {
 
         return basketPane;
     }
+    
+    public void refreshItems () {
+        products = sdc.loadWarehouseState();
+        names = new ArrayList<String>();
+    	
+        //Gets product list from loadWarehouseState
+        for (StockItem product : products) {       		
+        	names.add(product.getName());
+        }       
+    }
 
     // purchase dialog
     private JComponent drawDialogPane() {
@@ -91,14 +103,7 @@ public class PurchaseItemPanel extends JPanel {
         panel.setLayout(new GridLayout(5, 2));
         panel.setBorder(BorderFactory.createTitledBorder("Product"));
         
-        SalesDomainControllerImpl sdc = new SalesDomainControllerImpl();
-        products = sdc.loadWarehouseState();
-        names = new ArrayList<String>();
-        
-        //Gets product list from loadWarehouseState
-        for (StockItem product : products){       		
-        	names.add(product.getName());
-        }
+        refreshItems();
                 
         // Initialize the textfields(when start)
         barCodeField = new JTextField(String.valueOf(products.get(0).getId()));
@@ -109,6 +114,7 @@ public class PurchaseItemPanel extends JPanel {
         //Fill dialog when Action performed.
         nameField.addActionListener(new ActionListener(){
         	public void actionPerformed(ActionEvent e){
+        		refreshItems();
         		fillDialogFields();
         	}
         });
