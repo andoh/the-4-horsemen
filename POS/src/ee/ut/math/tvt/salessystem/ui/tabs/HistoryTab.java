@@ -148,17 +148,7 @@ public class HistoryTab {
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1.0;
-		gbc.weighty = 1.0;
-		
-		
-		
-		
-//		historyView.setLayout(new GridBagLayout());
-		
-
-		
-		
-		
+		gbc.weighty = 1.0;		
 		panel.add(history);
 		GridBagConstraints gc = new GridBagConstraints();
 	    GridBagLayout gb = new GridBagLayout();

@@ -53,13 +53,6 @@ public class ViewItem implements Cloneable, DisplayableItem {
 	@Column(name = "datestamp")
 	private String time;
 	
-	@Transient
-	private StockItem stockItem;
-    
-//	public Double getPrice() {
-//		return stockItem.getPrice();
-//	}
-	
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -67,10 +60,6 @@ public class ViewItem implements Cloneable, DisplayableItem {
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-
-//	public String getName() {
-//		return stockItem.getName();
-//	}
 	
 	public String getName() {
 		return name;
@@ -111,18 +100,7 @@ public class ViewItem implements Cloneable, DisplayableItem {
     
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    
-//    public StockItem getStockItem() {
-//        return stockItem;
-//    }
-    
-
-//    public void setStockItem(StockItem stockItem) {
-//        this.stockItem = stockItem;
-//    }
-    
+    }    
     
     public String getTime() {
     	return time;

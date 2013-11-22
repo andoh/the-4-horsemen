@@ -155,23 +155,13 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 		System.out.println("ühendatud");
 		Statement st= conn.createStatement();
 		
-		//ResultSet rs = st.executeQuery("SELECT StockItem.id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,Solditem.datestamp "
-		//					+ "FROM SoldItem JOIN StockItem ON StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id=1");
 		ResultSet rs = st.executeQuery("SELECT StockItem.id,StockItem.name,StockItem.price,SoldItem.quantity,SoldItem.total,Solditem.datestamp "
 									+ "FROM SoldItem JOIN StockItem ON StockItem.id=SoldItem.stockitem_id AND SoldItem.sale_id="+p);
 		
-		List<ViewItem> result = new ArrayList<ViewItem>();
-		
-		//System.out.println(rs);
-		//ResultSetMetaData rsmeta = rs.getMetaData();
-		
-//		int numberofColumns = rsmeta.getColumnCount();
-//		System.out.println("veerge on: "+numberofColumns);
 		ViewItem temp;
 		List<ViewItem> tempList = new ArrayList<ViewItem>();
 		while(rs.next())
 		{
-			//temp=new ViewItem((rs.getObject("ID")),(rs.getObject("NAME")),(rs.getObject("PRICE")),(rs.getObject("QUANTITY")),(rs.getObject("TOTAL")),(rs.getObject("DATESTAMP")));
 			Integer newIdT = (Integer) (rs.getObject("ID"));
 			String ss = String.valueOf(newIdT);
 			Long newId = Long.parseLong(ss);
@@ -186,28 +176,44 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 			
 			temp = new ViewItem(newId,newName,newPrice,newQuantity,newTotal,newDateStamp);
 			tempList.add(temp);
-			
-//			System.out.println(rs.getObject("ID"));
-//			System.out.println(rs.getObject("NAME"));
-//			System.out.println(rs.getObject("PRICE"));
-//			System.out.println(rs.getObject("QUANTITY"));
-//			System.out.println(rs.getObject("TOTAL"));
-//			System.out.println(rs.getObject("DATESTAMP"));
 		}
 		
 		for (int i = 0; i<tempList.size();i++){
 			System.out.println(tempList.get(i));
-		}
+		} // debug lines
 		
-		/*for(int i=1;i<=numberofColumns;i++){
-			System.out.println("ridade metadata");
-			System.out.println("rea number "+i);
-			
-			//System.out.println(rsmeta.getColumn(i));
-		}*/
 		st.close();
 		conn.close();
+
 		
+		return tempList;
+	}
+}
+	
+	
+
+	// *** OBSOLETE ****
+	// List<StockItem> dataset = new ArrayList<StockItem>();
+	//
+	// StockItem chips = new StockItem(1l, "Lays chips", "Potato chips", 11.0,
+	// 5);
+	// StockItem chupaChups = new StockItem(2l, "Chupa-chups", "Sweets", 8.0,
+	// 8);
+	// StockItem frankfurters = new StockItem(3l, "Frankfurters",
+	// "Beer sauseges", 15.0, 12);
+	// StockItem beer = new StockItem(4l, "Free Beer", "Student's delight", 0.0,
+	// 100);
+	//
+	// dataset.add(chips);
+	// dataset.add(chupaChups);
+	// dataset.add(frankfurters);
+	// dataset.add(beer);
+	//
+	// return dataset;
+
+
+/* Some old code to remind us how annoying Java can actually be
+ * 		
 		/*
 		 * ta = session.beginTransaction();
 		 */
@@ -236,27 +242,22 @@ public class SalesDomainControllerImpl implements SalesDomainController {
 //		{
 //			System.out.println(result.get(i));
 //		}
-		
-		return tempList;
-	}
 
-	// *** OBSOLETE ****
-	// List<StockItem> dataset = new ArrayList<StockItem>();
-	//
-	// StockItem chips = new StockItem(1l, "Lays chips", "Potato chips", 11.0,
-	// 5);
-	// StockItem chupaChups = new StockItem(2l, "Chupa-chups", "Sweets", 8.0,
-	// 8);
-	// StockItem frankfurters = new StockItem(3l, "Frankfurters",
-	// "Beer sauseges", 15.0, 12);
-	// StockItem beer = new StockItem(4l, "Free Beer", "Student's delight", 0.0,
-	// 100);
-	//
-	// dataset.add(chips);
-	// dataset.add(chupaChups);
-	// dataset.add(frankfurters);
-	// dataset.add(beer);
-	//
-	// return dataset;
+		/*for(int i=1;i<=numberofColumns;i++){
+		System.out.println("ridade metadata");
+		System.out.println("rea number "+i);
 
-}
+		//System.out.println(rsmeta.getColumn(i));
+		}*/
+
+		//System.out.println(rs.getObject("ID"));
+		//System.out.println(rs.getObject("NAME"));
+		//System.out.println(rs.getObject("PRICE"));
+		//System.out.println(rs.getObject("QUANTITY"));
+		//System.out.println(rs.getObject("TOTAL"));
+		//System.out.println(rs.getObject("DATESTAMP"));
+
+
+
+
+

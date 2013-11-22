@@ -54,10 +54,6 @@ public class SalesSystemModel {
     public void updateWareHouse(){
     	warehouseTableModel.populateWithData(domainController.loadWarehouseState());
     }
-//    public void updateHistoryView(){
-//    	historyView.populateWithData(domainController.loadWarehouseState());
-//    }
-//    
 
     public StockTableModel getWarehouseTableModel() {
         return warehouseTableModel;
@@ -72,7 +68,6 @@ public class SalesSystemModel {
     }
     
     public HistoryViewModel getCurrentHistoryViewModel() {
-    	//return historyView.populateWithData(domainController.loadHistoryView(p));
     	return historyView;
     }
     
