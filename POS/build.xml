@@ -89,7 +89,9 @@
 		
   <target name="build-tests" depends="init-test, build" description="compile the source for test" >
 	<!-- Compile the java code from ${src} into ${build} -->
-  	<javac srcdir="${test.dir}" destdir="${build.test}" classpathref="compile.classpath">
+  	<javac destdir="${build.test}" classpathref="compile.classpath">
+  		<src path="${test.dir}"/>
+  		<src path="${src}"/>
 		<!--classpath path="${build}"/-->
 	</javac>
 	<!--set log4j and other files in the right places -->
@@ -112,9 +114,9 @@
 	<target name="test" depends="build-tests, copymetafiles" description="run tests" >
 		<junit>
 			<classpath refid="test-classpath"/>
-			<formatter type="brief" usefile="false" />
+			<formatter type="plain" usefile="false" />
 			<batchtest>
-				<fileset dir="${build.test}" includes="**/*.class" />
+				<fileset dir="${build.test}" includes="**/*Test.class" />
 			</batchtest>
 		</junit>
 	</target>	
