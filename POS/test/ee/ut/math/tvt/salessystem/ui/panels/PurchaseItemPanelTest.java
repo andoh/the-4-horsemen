@@ -6,18 +6,27 @@ import org.junit.Test;
 
 public class PurchaseItemPanelTest {
 	
+	@Before
+	public void setUp () {
+		
+	}
+	
+	@Test
 	public void testAddSoldItem() {
 		
 	}
 	
+	@Test
 	public void testGetSumWithNoItems() {
 		
 	}
 	
+	@Test
 	public void testGetSumWithOneItem() {
 		
 	}
 	
+	@Test
 	public void testGetSumWithMultipleItems() {
 		
 	}

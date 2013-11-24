@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 
 public class StockItemTest {
 	
@@ -19,12 +18,17 @@ public class StockItemTest {
 	@Test
 	public void testClone() {
 		// Me tegelt ei kloonigi mitte kunagi. Selle asemel on meil StockItemis konstruktor
-		// StockItem(StockItem sti), ehk siis testida tuleks just seda
-		assertEquals(item1, item2);
+		// StockItem(StockItem sti), ehk siis testimegi just seda
+		assertEquals(item1.getId(), item2.getId());
+		assertEquals(item1.getName(), item2.getName());
+		assertEquals(item1.getPrice(), item2.getPrice(), 0.0001);
+		assertEquals(item1.getQuantity(), item2.getQuantity());
 		
 	}
 	
+	@Test
 	public void testGetColumn() {
+		assertEquals(item1.getColumn(0), item2.getColumn(0));
 		
 	}
 	
