@@ -213,6 +213,44 @@ public class PurchaseItemPanel extends JPanel {
             return null;
         }
     }
+    
+    // Will be mo
+	public boolean validateNameUniqueness(String Name) {
+		
+		List<StockItem> tempList = sdc.loadWarehouseState();
+				
+		for (StockItem item : tempList) {
+	        if (Name.equals(item.getName())) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+    
+	public Object GetItemById(long id) {
+		try {
+			return model.getWarehouseTableModel().getItemById(id);
+		} catch (Exception e1) {
+			return false;
+		}
+	}
+
+    public boolean HasEnoughInStock(StockItem sti) {
+    	int quantity = 1;
+        if (sti != null) {
+            try {
+                quantity = Integer.parseInt(quantityField.getText());
+            } catch (NumberFormatException ex) {
+                quantity = 1;
+            }
+        }
+
+        SoldItem si = model.getCurrentPurchaseTableModel().getItemById(sti.getId());
+        int totalQuantity = quantity+si.getQuantity();
+        if (totalQuantity>model.getWarehouseTableModel().getItemById(sti.getId()).getQuantity())
+        	return false;
+        return true;
+    }
 
     /**
      * Add new item to the cart.

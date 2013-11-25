@@ -17,8 +17,8 @@ public class StockItemTest {
 	
 	@Test
 	public void testClone() {
-		// Me tegelt ei kloonigi mitte kunagi. Selle asemel on meil StockItemis konstruktor
-		// StockItem(StockItem sti), ehk siis testimegi just seda
+		// We never actually clone, instead we have a special constructor 
+		// StockItem(StockItem sti), so we will test just that
 		assertEquals(item1.getId(), item2.getId());
 		assertEquals(item1.getName(), item2.getName());
 		assertEquals(item1.getPrice(), item2.getPrice(), 0.0001);
@@ -31,6 +31,4 @@ public class StockItemTest {
 		assertEquals(item1.getColumn(0),(long) 101);
 		
 	}
-	
-
 }
