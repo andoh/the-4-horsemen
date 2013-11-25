@@ -46,9 +46,17 @@ public class PurchaseItemPanel extends JPanel {
     private JButton addItemButton;
 
     // Warehouse model
-    private SalesSystemModel model;
+    protected SalesSystemModel model;
     
-    SalesDomainControllerImpl sdc = new SalesDomainControllerImpl();
+    public SalesSystemModel getModel() {
+		return model;
+	}
+
+	public void setModel(SalesSystemModel model) {
+		this.model = model;
+	}
+
+	SalesDomainControllerImpl sdc = new SalesDomainControllerImpl();
 
     /**
      * Constructs new purchase item panel.
@@ -57,8 +65,8 @@ public class PurchaseItemPanel extends JPanel {
      *            composite model of the warehouse and the shopping cart.
      */
     public PurchaseItemPanel(SalesSystemModel model) {
-        this.model = model;
-
+    	this.model = model;
+    	
         setLayout(new GridBagLayout());
 
         add(drawDialogPane(), getDialogPaneConstraints());
@@ -162,7 +170,7 @@ public class PurchaseItemPanel extends JPanel {
         addItemButton = new JButton("Add to cart");
         addItemButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                addItemEventHandler();
+                addItemEventHandler(getStockItemByBarcode(Long.parseLong(barCodeField.getText())));
             }
         });
 
@@ -196,9 +204,8 @@ public class PurchaseItemPanel extends JPanel {
     
     // Search the warehouse for a StockItem with the bar code entered
     // to the barCode textfield.
-    private StockItem getStockItemByBarcode() {
+    protected StockItem getStockItemByBarcode(Long id) {
         try {
-            Long id = Long.parseLong(barCodeField.getText());
             return model.getWarehouseTableModel().getItemById(id);
         } catch (NumberFormatException ex) {
            return null;
@@ -210,9 +217,8 @@ public class PurchaseItemPanel extends JPanel {
     /**
      * Add new item to the cart.
      */
-    public void addItemEventHandler() {
+    public void addItemEventHandler(StockItem stockItem) {
         // add chosen item to the shopping cart.
-        StockItem stockItem = getStockItemByBarcode();
         int quantity = 1;
         if (stockItem != null) {
             

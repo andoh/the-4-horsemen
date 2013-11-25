@@ -28,7 +28,7 @@ public class StockItemTest {
 	
 	@Test
 	public void testGetColumn() {
-		assertEquals(item1.getColumn(0), item2.getColumn(0));
+		assertEquals(item1.getColumn(0),(long) 101);
 		
 	}
 	

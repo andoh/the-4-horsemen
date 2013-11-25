@@ -10,6 +10,7 @@ public class StockTableModelTest {
 	@Before
 	public void setUp() {
 		
+		
 	}
 	
 	@Test
@@ -24,7 +25,7 @@ public class StockTableModelTest {
 	
 	@Test
 	public void GetItemByIdWhenItemExists() {
-		
+	
 	}
 	
 	@Test
